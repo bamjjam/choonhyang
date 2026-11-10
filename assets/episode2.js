@@ -5,7 +5,7 @@
   const esc = s => String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
   const SAVE = 'ddeokip-ep2-save', DIARY = 'ddeokip-ep2-diary';
   const moods = {normal:0,happy:1,sad:2,shock:3,sweat:4,stern:5};
-  const portraits = ['baleum','hyangdan','mongryong','heungbu','nolbu','bangja','dalrae','judge'];
+  const portraits = ['baleum','wonnim','heungbu','nolbu','dolsoe','dalrae','judge'];
   const fresh = () => ({version:1, screen:'title', stage:0, line:0, ev:[], coins:5, cross:{}, count:0, labRound:0, labSelected:[], labPassed:false, facts:{}, seen:[], choice:null, diaryText:'', diarySaved:false, complete:false});
   let S = fresh(), hasSave = false, focusBeforeModal = null, hintLevel = 1, toastTimer;
   const st = () => C.stages[S.stage];
@@ -16,6 +16,9 @@
     S.ev = Array.isArray(S.ev) ? S.ev.filter(k => C.evidence[k]) : [];
     S.seen = Array.isArray(S.seen) ? S.seen.filter(k => C.glossary[k]) : [];
     S.cross = S.cross && typeof S.cross === 'object' ? S.cross : {};
+    // Preserve progress from the previous cast without resetting the case.
+    if (S.cross.bangja && !S.cross.dolsoe) S.cross.dolsoe = S.cross.bangja;
+    delete S.cross.bangja;
     S.facts = S.facts && typeof S.facts === 'object' ? S.facts : {};
     S.coins = Number.isFinite(S.coins) ? Math.max(1,Math.min(5,S.coins)) : 5;
     S.line = Number.isInteger(S.line) ? Math.max(0,Math.min(S.line,(st().lines?.length || 1)-1)) : 0;
@@ -33,7 +36,7 @@
   function face(id, mood='normal') {
     if (!portraits.includes(id)) return '';
     const n=moods[mood] ?? 0;
-    return `<svg class="character painted-character" viewBox="0 0 512 512" role="img" aria-label="${C.chars[id]}" data-character="${id}"><image href="assets/art/${id}.webp" x="${-(n%3)*512}" y="${-Math.floor(n/3)*512}" width="1536" height="1024" preserveAspectRatio="none"/></svg>`;
+    return `<svg class="character painted-character" viewBox="0 0 512 512" role="img" aria-label="${C.chars[id]}" data-character="${id}"><image href="assets/art/${id==='nolbu'?'nolbu-v2':id}.webp" x="${-(n%3)*512}" y="${-Math.floor(n/3)*512}" width="1536" height="1024" preserveAspectRatio="none"/></svg>`;
   }
   const backdrop = (id='court') => `<img class="painted-backdrop" src="assets/art/${id}.webp" alt="" draggable="false">`;
   const who = (id,text,mood='normal') => `<div class="who"><div class="mini">${face(id,mood)}</div><div><span class="wn">${C.chars[id]}</span><p>${text}</p></div></div>`;
@@ -58,7 +61,7 @@
     if (focusBeforeModal?.isConnected) focusBeforeModal.focus({preventScroll:true});
     focusBeforeModal=null;
   }
-  function notice(title,text,id='hyangdan',mood='normal') {
+  function notice(title,text,id='dalrae',mood='normal') {
     openModal(`<h3>${title}</h3>${who(id,text,mood)}<div class="row end">${action('close','알겠어요')}</div>`,title);
   }
   function shout() {
@@ -109,7 +112,7 @@
     const words=(line.words||[]).filter(w=>!S.seen.includes(w));
     if(words.length) {S.seen.push(...words);save();}
     $('#view').innerHTML=`<div class="scene">${backdrop()}<span class="tagline">제2화 · ${st().chapter}</span><div class="por">${face(speaker,line.mood)}</div></div>
-      <button class="dlg" data-action="next" aria-label="다음 대사">${C.chars[line.who]?`<span class="nm ${['baleum','hyangdan'].includes(line.who)?'blue':''}">${C.chars[line.who]}</span>`:''}<span class="tx ${line.who==='narr'?'narr':''}">${esc(line.text)}</span><span class="more">눌러서 계속 ▶</span></button>
+      <button class="dlg" data-action="next" aria-label="다음 대사">${C.chars[line.who]?`<span class="nm ${['baleum','dalrae'].includes(line.who)?'blue':''}">${C.chars[line.who]}</span>`:''}<span class="tx ${line.who==='narr'?'narr':''}">${esc(line.text)}</span><span class="more">눌러서 계속 ▶</span></button>
       ${(line.words||[]).length?`<div class="word-inline">새 낱말 ${line.words.map(w=>action('word',w,w,'word-chip')).join('')}<span>눌러서 뜻 보기</span></div>`:''}`;
     if(line.shout) shout();
   }
@@ -126,7 +129,7 @@
     if(key==='share')return `<article class="evidence-document ledger-doc"><span class="doc-overline">흥부가 남긴 기록 · 3월 10일</span><h3>박씨 나눔 기록</h3><div class="ledger-grid"><span>같은 주머니에</span><strong>모두 20알</strong><span>달래에게</span><strong>12알</strong><span>형님 놀부에게</span><strong>남은 씨앗 전부</strong></div><p class="doc-copy">“지난해 거둔 박의 씨앗을<br>값 없이 나누어 드립니다.”</p><p class="doc-signer">적은 이 · 흥부</p></article>`;
     if(key==='care')return `<article class="evidence-document note-doc"><span class="doc-overline">박씨와 함께 건넨 쪽지</span><h3>형님께</h3><p class="doc-copy">씨앗이 <b>촉촉하게</b> 지내게 해 주세요.<br>오래 물에 잠기게 두지는 마세요.<br><b>공기가 통하고 알맞게 따뜻한 곳</b>에서<br>천천히 기다려 주세요.</p><p class="doc-signer">동생 흥부 올림</p><div class="paper-crease"></div></article>`;
     if(key==='jar')return `<div class="observation-heading"><span>현장 관찰 · 3월 18일</span><b>나바름이 뚜껑을 열고 살핀 항아리</b></div>${jarDiagram(false)}<p class="muted">수사 당시 모습을 그렸어요. 씨앗 세 알이 물속에 잠겨 있었고, 뚜껑이 덮여 있었어요.</p>`;
-    if(key==='order')return `<article class="evidence-document order-doc"><span class="doc-overline">3월 10일부터 지킬 작업 지시</span><h3>방자는 들으라!</h3><p class="order-copy">물을 <b>매일 한 바가지</b> 더 붓거라.<br>물이 차도 <b>따라내지 말거라.</b><br>뚜껑도 꼭 덮어 두거라.<br>많이 주면 빨리 자랄 게다!</p><div class="doc-signer"><span>놀부</span><span class="official-stamp">놀부<br>확인</span></div></article><p class="gl">이것은 놀부의 생각을 적은 지시서예요. 과학적으로 맞는 설명인지는 따져 보아야 해요.</p>`;
+    if(key==='order')return `<article class="evidence-document order-doc"><span class="doc-overline">3월 10일부터 지킬 작업 지시</span><h3>돌쇠는 들으라!</h3><p class="order-copy">물을 <b>매일 한 바가지</b> 더 붓거라.<br>물이 차도 <b>따라내지 말거라.</b><br>뚜껑도 꼭 덮어 두거라.<br>많이 주면 빨리 자랄 게다!</p><div class="doc-signer"><span>놀부</span><span class="official-stamp">놀부<br>확인</span></div></article><p class="gl">이것은 놀부의 생각을 적은 지시서예요. 과학적으로 맞는 설명인지는 따져 보아야 해요.</p>`;
     if(key==='journal')return `<article class="journal"><header><span class="doc-overline">3월 10일 → 3월 18일 · 여드레 동안</span><h3>달래의 관찰 일지</h3></header><p>같은 주머니에서 꺼낸 박씨를 <b>4알씩</b> 세 그릇에 나누었어요.</p><div class="tw"><table class="seat experiment-table"><thead><tr><th scope="col">그릇</th><th scope="col">물</th><th scope="col">온도</th><th scope="col">싹튼 수</th></tr></thead><tbody>${C.trials.map(t=>`<tr><th scope="row">${t.id}</th><td>${t.water}</td><td>${t.temp}</td><td><b>${t.sprouted} / 4알</b></td></tr>`).join('')}</tbody></table></div><p class="gl">모두 공기가 통했고, 씨앗 수·종류·관찰 기간·빛 등 나머지 조건은 같게 했어요.</p><p class="muted">이 사건에서 관찰한 결과예요. 실제 싹트는 시간과 수는 씨앗의 종류·상태·조건에 따라 달라요. 싹이 보이지 않았다고 곧바로 죽었다고 할 수는 없어요.</p></article>`;
     return '';
   }
@@ -149,13 +152,13 @@
     const c=currentCross();c.wrong=(c.wrong||0)+1;S.coins--;
     let extra='';if(S.coins<=0){S.coins=5;extra='<br><br>기력 엽전을 다시 채웠어요. 모은 증거는 그대로예요. 천천히 다시 생각해 봐요.';}
     save();topbar();
-    notice('한 번 더 살펴볼까요?',esc(message)+extra,'hyangdan');
+    notice('한 번 더 살펴볼까요?',esc(message)+extra,'dalrae');
   }
   function submitEvidence(id) {
     if(st().type!=='cross'||!S.ev.includes(id))return;
     const w=C.witnesses[st().id],c=currentCross();
     if(w.solve.evidence!==id||!w.solve.statements.includes(c.si)){wrong(w.wrong);return;}
-    if(w.solve.point){openModal(`<h3>방자의 말과 다른 부분은?</h3><p class="gl">“천만 살짝 적셨소. 씨앗이 물에 잠긴 적은 없소!”</p>${jarDiagram(true)}<p>그림에서 말과 어긋나는 부분을 짚어 주세요.</p><div class="row">${action('spot','씨앗','water','seal blue')}${action('spot','뚜껑','lid','seal blue')}${action('spot','항아리 벽','wall','seal blue')}</div><div class="row end">${action('close','증언 다시 보기','','seal')}</div>`,'현장 그림 짚기');return;}
+    if(w.solve.point){openModal(`<h3>돌쇠의 말과 다른 부분은?</h3><p class="gl">“천만 살짝 적셨소. 씨앗이 물에 잠긴 적은 없소!”</p>${jarDiagram(true)}<p>그림에서 말과 어긋나는 부분을 짚어 주세요.</p><div class="row">${action('spot','씨앗','water','seal blue')}${action('spot','뚜껑','lid','seal blue')}${action('spot','항아리 벽','wall','seal blue')}</div><div class="row end">${action('close','증언 다시 보기','','seal')}</div>`,'현장 그림 짚기');return;}
     shout();go(S.stage+1);
   }
   function drawCount(message='') {
@@ -178,7 +181,7 @@
     $('#view').innerHTML=`<section class="board puzzle-board"><div class="section-kicker">최종 증거 점검</div><h2>본 것과 짐작한 것을 나누어요</h2><p class="muted">기록이나 관찰로 확인했나요? 아니면 아직 더 확인해야 할 생각인가요?</p><div class="fact-list">${C.facts.map((f,i)=>`<article class="fact-card"><div class="fact-number">0${i+1}</div><div><p>${f.text}</p><div class="fact-buttons" role="group" aria-label="${f.text}">${action('classify','확인한 사실',f.id+'|fact','fact-choice '+(S.facts[f.id]==='fact'?'selected':''))}${action('classify','더 확인할 생각',f.id+'|guess','fact-choice '+(S.facts[f.id]==='guess'?'selected':''))}</div></div></article>`).join('')}</div>${message?`<div class="feedback" role="status">${message}</div>`:''}<div class="row end facts-bottom">${action('facts-hint','판단 도움말','','seal')}${action('facts-check','증거 점검 마치기 →','','seal fill',!done)}</div></section>`;
   }
   function drawVerdict() {
-    $('#view').innerHTML=`<section class="board verdict-page"><span class="section-kicker">사건 번호 002 · 최종 판결</span><div class="verdict-heading"><span class="verdict-stamp">무죄</span><div><h2>흥부의 누명을 벗겼어요.</h2><p>“싹이 안 났다”가 “일부러 망쳤다”는 증거는 아니에요.</p></div></div><div class="verdicts"><article class="vcard"><h3>관아의 판결 · 이몽룡</h3>${who('mongryong','흥부가 일부러 씨앗을 망가뜨렸다는 증거가 없소. 놀부는 함부로 의심한 일을 사과하고, 방자는 본 사실을 숨기지 마시오. 씨앗은 바른 조건에서 함께 다시 살펴보시오.')}</article><article class="vcard modern"><h3>한저울 판사의 증거 점검</h3>${who('judge','일부 그릇의 결과만으로 모든 씨앗을 판단할 수 없어요. 사람을 탓하기 전에, 물·공기·온도 같은 다른 원인도 살펴야 해요. 모르는 것은 더 확인하는 태도가 공정한 판단의 시작입니다.')}</article></div><div class="learning-strip"><span><b>수학</b>20 − 12 = 8</span><span><b>과학</b>물 · 공기 · 알맞은 온도</span><span><b>추리</b>사실과 추측 구별</span></div><div class="gl">씨앗이 싹트기 시작하는 것과, 싹이 자라는 것은 구별해요. 자란 식물에는 빛도 중요해요. 씨앗 종류에 따라 싹틀 때의 빛 조건도 다를 수 있어요.</div><div class="row end">${action('next-stage','내 판결을 일기에 남기기 →')}</div><p class="science-note">고전 인물을 활용해 만든 이야기 속 재판입니다.</p></section>`;
+    $('#view').innerHTML=`<section class="board verdict-page"><span class="section-kicker">사건 번호 002 · 최종 판결</span><div class="verdict-heading"><span class="verdict-stamp">무죄</span><div><h2>흥부의 누명을 벗겼어요.</h2><p>“싹이 안 났다”가 “일부러 망쳤다”는 증거는 아니에요.</p></div></div><div class="verdicts"><article class="vcard"><h3>관아의 판결 · 원님</h3>${who('wonnim','흥부가 일부러 씨앗을 망가뜨렸다는 증거가 없소. 놀부는 함부로 의심한 일을 사과하고, 돌쇠는 본 사실을 숨기지 마시오. 씨앗은 바른 조건에서 함께 다시 살펴보시오.')}</article><article class="vcard modern"><h3>오늘의 시선 · 한저울 판사</h3>${who('judge','일부 그릇의 결과만으로 모든 씨앗을 판단할 수 없어요. 사람을 탓하기 전에, 물·공기·온도 같은 다른 원인도 살펴야 해요. 모르는 것은 더 확인하는 태도가 공정한 판단의 시작입니다.')}</article></div><div class="learning-strip"><span><b>수학</b>20 − 12 = 8</span><span><b>과학</b>물 · 공기 · 알맞은 온도</span><span><b>추리</b>사실과 추측 구별</span></div><div class="gl">씨앗이 싹트기 시작하는 것과, 싹이 자라는 것은 구별해요. 자란 식물에는 빛도 중요해요. 씨앗 종류에 따라 싹틀 때의 빛 조건도 다를 수 있어요.</div><div class="row end">${action('next-stage','내 판결을 일기에 남기기 →')}</div><p class="science-note">고전 인물을 활용해 만든 이야기 속 재판입니다.</p></section>`;
   }
   function drawDiary(message='') {
     $('#view').innerHTML=`<section class="board"><div class="section-kicker">사건 수첩 · 마지막 장</div><h2>다시 이런 일이 생기지 않으려면?</h2><p class="muted">가장 마음에 드는 생각을 골라 주세요. 여기에는 정답이 없어요.</p><div class="cards" role="radiogroup" aria-label="나의 판결">${C.diaryChoices.map((t,i)=>`<button class="opt ${S.choice===i?'on':''}" data-action="diary-choice" data-value="${i}" role="radio" aria-checked="${S.choice===i}">${S.choice===i?'●':'○'} ${t}</button>`).join('')}</div><label for="diary-text" class="diary-label">내 생각 한 줄 <small>안 써도 괜찮아요</small></label><textarea id="diary-text" maxlength="160" placeholder="예: 싹이 안 났다고 바로 누군가를 탓하지 않을 거예요.">${esc(S.diaryText)}</textarea>${message?`<p class="feedback">${message}</p>`:''}<div class="row end diary-bottom">${action('finish','일기를 남기고 결말 보기 →','','seal fill',S.choice===null)}</div><p class="muted">일기와 진행 상황은 이 브라우저에만 저장돼요. 이름은 적지 않아도 돼요.</p></section>`;
@@ -192,7 +195,7 @@
     openModal(`<h3>내 판관 일기</h3>${all.length?all.map(d=>`<article class="gl"><span class="muted">${esc(d.date||'')} · 제${d.episode===1?'1':'2'}화</span><p><b>${esc(d.choice||'')}</b></p>${d.text?`<p>${esc(d.text)}</p>`:''}</article>`).join(''):'<p>사건을 끝까지 해결하면 나의 판결을 남길 수 있어요.</p>'}<div class="row end">${action('close','닫기')}</div>`,'내 판관 일기');
   }
   function guide() {
-    openModal(`<h3>제2화 · 교사·보호자 안내</h3><p><b>흥부전 × 식물의 한살이 × 증거로 판단하기</b><br>초등 3–4학년부터, 약 20–30분을 예상한 이야기입니다. 읽기와 토론 시간에 따라 달라집니다. 흥부전 인물로 새로 꾸민 사건이며, 달래는 새로 만든 인물입니다.</p><p><b>함께 생각할 질문</b></p><ol><li>식물이 잘 자라지 않았다는 이유만으로 씨앗을 준 사람을 탓해도 될까요?</li><li>물의 영향을 알아보려면 온도도 바꾸어야 할까요?</li><li>남의 지시를 따른 방자는 거짓말한 책임도 없을까요?</li></ol><details class="teacher-spoilers"><summary>교사용 진행·정답 보기</summary><p>놀부 첫 심문: 증언 3 + 나눔 기록 → 20 − 12 = 8알.<br>방자: 증언 2 + 항아리 그림 → 물속 씨앗.<br>물 비교: A·B / 온도 비교: A·C.<br>놀부 마지막 심문: 증언 3 + 관찰 일지.<br>사실 구분: 사실·더 확인할 생각·사실·더 확인할 생각.</p></details><p><b>과학 표현의 범위</b><br>싹트기에 필요한 물, 산소, 알맞은 온도를 다룹니다. 물에 오래 잠기면 산소를 얻기 어려울 수 있지만, 항아리 그림만으로 모든 원인을 확정하지 않습니다. 그릇별 수치는 이야기 속 관찰 자료이며 실제 발아율이나 기간을 보장하지 않습니다. 종에 따라 싹틀 때 빛 조건도 다릅니다.</p><p class="muted">과학 내용 참고: <a href="https://content.ces.ncsu.edu/extension-gardener-handbook/13-propagation" target="_blank" rel="noopener">NC State Extension · 씨앗 번식</a>, <a href="https://open.lib.umn.edu/horticulture/chapter/9-2-seed-physiology/" target="_blank" rel="noopener">University of Minnesota · 씨앗의 생리</a>.</p><p class="muted">로그인 없이 사용하며 진행과 일기는 브라우저 안에만 저장됩니다. 1화와 2화의 진행 기록은 별개입니다.</p><div class="row end">${action('close','닫기')}</div>`,'교사·보호자 안내');
+    openModal(`<h3>제2화 · 교사·보호자 안내</h3><p><b>흥부전 × 식물의 한살이 × 증거로 판단하기</b><br>초등 3–4학년부터, 약 20–30분을 예상한 이야기입니다. 읽기와 토론 시간에 따라 달라집니다. 흥부전의 흥부와 놀부를 바탕으로 새로 꾸민 사건입니다. 나바름은 시리즈의 주인공이고, 달래는 이 마을에서 씨앗을 관찰하며 수사를 돕는 아이입니다. 놀부네 일꾼 돌쇠와 고을 원님도 이 게임을 위해 만든 인물입니다. 한저울 판사는 결말에서 오늘날의 시선으로 증거를 돌아봅니다.</p><p><b>함께 생각할 질문</b></p><ol><li>식물이 잘 자라지 않았다는 이유만으로 씨앗을 준 사람을 탓해도 될까요?</li><li>물의 영향을 알아보려면 온도도 바꾸어야 할까요?</li><li>남의 지시를 따른 돌쇠는 거짓말한 책임도 없을까요?</li></ol><details class="teacher-spoilers"><summary>교사용 진행·정답 보기</summary><p>놀부 첫 심문: 증언 3 + 나눔 기록 → 20 − 12 = 8알.<br>돌쇠: 증언 2 + 항아리 그림 → 물속 씨앗.<br>물 비교: A·B / 온도 비교: A·C.<br>놀부 마지막 심문: 증언 3 + 관찰 일지.<br>사실 구분: 사실·더 확인할 생각·사실·더 확인할 생각.</p></details><p><b>과학 표현의 범위</b><br>싹트기에 필요한 물, 산소, 알맞은 온도를 다룹니다. 물에 오래 잠기면 산소를 얻기 어려울 수 있지만, 항아리 그림만으로 모든 원인을 확정하지 않습니다. 그릇별 수치는 이야기 속 관찰 자료이며 실제 발아율이나 기간을 보장하지 않습니다. 종에 따라 싹틀 때 빛 조건도 다릅니다.</p><p class="muted">과학 내용 참고: <a href="https://content.ces.ncsu.edu/extension-gardener-handbook/13-propagation" target="_blank" rel="noopener">NC State Extension · 씨앗 번식</a>, <a href="https://open.lib.umn.edu/horticulture/chapter/9-2-seed-physiology/" target="_blank" rel="noopener">University of Minnesota · 씨앗의 생리</a>.</p><p class="muted">로그인 없이 사용하며 진행과 일기는 브라우저 안에만 저장됩니다. 1화와 2화의 진행 기록은 별개입니다.</p><div class="row end">${action('close','닫기')}</div>`,'교사·보호자 안내');
   }
   function act(a,v) {
     const cross=st().type==='cross'&&S.screen==='game';
@@ -213,8 +216,8 @@
       case 'reply': if(cross){currentCross().reply=true;currentCross().asking=false;drawCross();}break;
       case 'present': if(cross)evidenceBox(true);break;
       case 'submit-evidence': if(cross)submitEvidence(v);break;
-      case 'spot': if(cross&&st().id==='bangja'){if(v==='water')go(S.stage+1);else notice('씨앗이 놓인 곳을 살펴보세요','방자는 씨앗이 물에 잠기지 않았다고 했어요. 뚜껑이나 벽보다는 씨앗과 물 높이를 비교해 보세요.');}break;
-      case 'hint': case 'more-hint': if(cross){hintLevel=a==='hint'?1:Math.min(3,hintLevel+1);const w=C.witnesses[st().id];openModal(`<h3>향단의 힌트</h3>${who('hyangdan',w.hints.slice(0,hintLevel).map(h=>`<span class="hint-line">${h}</span>`).join(''),'happy')}<div class="row end">${hintLevel<3?action('more-hint','더 자세한 힌트','','seal blue'):''}${action('close','생각해 볼게요')}</div>`,'심문 힌트');}break;
+      case 'spot': if(cross&&st().id==='dolsoe'){if(v==='water')go(S.stage+1);else notice('씨앗이 놓인 곳을 살펴보세요','돌쇠는 씨앗이 물에 잠기지 않았다고 했어요. 뚜껑이나 벽보다는 씨앗과 물 높이를 비교해 보세요.');}break;
+      case 'hint': case 'more-hint': if(cross){hintLevel=a==='hint'?1:Math.min(3,hintLevel+1);const w=C.witnesses[st().id];openModal(`<h3>달래의 힌트</h3>${who('dalrae',w.hints.slice(0,hintLevel).map(h=>`<span class="hint-line">${h}</span>`).join(''),'happy')}<div class="row end">${hintLevel<3?action('more-hint','더 자세한 힌트','','seal blue'):''}${action('close','생각해 볼게요')}</div>`,'심문 힌트');}break;
       case 'count-plus': case 'count-minus': if(st().type==='count'){S.count=Math.max(0,Math.min(20,S.count+(a==='count-plus'?1:-1)));save();drawCount();}break;
       case 'count-check': if(st().type==='count'){if(S.count===8)go(S.stage+1);else drawCount('달래 몫은 4알씩 세 그릇, 모두 12알이에요. 처음 20알에서 12알을 빼 보세요.');}break;
       case 'count-hint': notice('한 걸음씩 계산해요','20에서 먼저 10을 빼면 10, 거기서 2를 더 빼면 몇 알일까요?');break;

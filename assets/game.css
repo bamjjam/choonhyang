@@ -476,7 +476,21 @@ DAMAGES, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
 FROM, OUT OF THE USE OR INABILITY TO USE THE FONT SOFTWARE OR FROM
 OTHER DEALINGS IN THE FONT SOFTWARE.
  */
-@font-face{font-family:'Court Sans';font-style:normal;font-weight:700;font-display:swap;src:url(fonts/court-sans.woff) format('woff')}
+@font-face{font-family:'Court Sans';font-style:normal;font-weight:700;font-display:swap;src:url(fonts/noto-sans-kr-bold-00.woff2) format('woff2');unicode-range:U+20-24BE}
+@font-face{font-family:'Court Sans';font-style:normal;font-weight:700;font-display:swap;src:url(fonts/noto-sans-kr-bold-01.woff2) format('woff2');unicode-range:U+24BF-3147}
+@font-face{font-family:'Court Sans';font-style:normal;font-weight:700;font-display:swap;src:url(fonts/noto-sans-kr-bold-02.woff2) format('woff2');unicode-range:U+3148-AD3D}
+@font-face{font-family:'Court Sans';font-style:normal;font-weight:700;font-display:swap;src:url(fonts/noto-sans-kr-bold-03.woff2) format('woff2');unicode-range:U+AD3E-B13D}
+@font-face{font-family:'Court Sans';font-style:normal;font-weight:700;font-display:swap;src:url(fonts/noto-sans-kr-bold-04.woff2) format('woff2');unicode-range:U+B13E-B53D}
+@font-face{font-family:'Court Sans';font-style:normal;font-weight:700;font-display:swap;src:url(fonts/noto-sans-kr-bold-05.woff2) format('woff2');unicode-range:U+B53E-B93D}
+@font-face{font-family:'Court Sans';font-style:normal;font-weight:700;font-display:swap;src:url(fonts/noto-sans-kr-bold-06.woff2) format('woff2');unicode-range:U+B93E-BD3D}
+@font-face{font-family:'Court Sans';font-style:normal;font-weight:700;font-display:swap;src:url(fonts/noto-sans-kr-bold-07.woff2) format('woff2');unicode-range:U+BD3E-C13D}
+@font-face{font-family:'Court Sans';font-style:normal;font-weight:700;font-display:swap;src:url(fonts/noto-sans-kr-bold-08.woff2) format('woff2');unicode-range:U+C13E-C53D}
+@font-face{font-family:'Court Sans';font-style:normal;font-weight:700;font-display:swap;src:url(fonts/noto-sans-kr-bold-09.woff2) format('woff2');unicode-range:U+C53E-C93D}
+@font-face{font-family:'Court Sans';font-style:normal;font-weight:700;font-display:swap;src:url(fonts/noto-sans-kr-bold-10.woff2) format('woff2');unicode-range:U+C93E-CD3D}
+@font-face{font-family:'Court Sans';font-style:normal;font-weight:700;font-display:swap;src:url(fonts/noto-sans-kr-bold-11.woff2) format('woff2');unicode-range:U+CD3E-D13D}
+@font-face{font-family:'Court Sans';font-style:normal;font-weight:700;font-display:swap;src:url(fonts/noto-sans-kr-bold-12.woff2) format('woff2');unicode-range:U+D13E-D53D}
+@font-face{font-family:'Court Sans';font-style:normal;font-weight:700;font-display:swap;src:url(fonts/noto-sans-kr-bold-13.woff2) format('woff2');unicode-range:U+D53E-1F12A}
+@font-face{font-family:'Court Sans';font-style:normal;font-weight:700;font-display:swap;src:url(fonts/noto-sans-kr-bold-14.woff2) format('woff2');unicode-range:U+1F12B-30EDE}
 
 /* Watercolor illustrated edition */
 :root{--f-display:'Court Sans','Gowun Dodum','Malgun Gothic','Apple SD Gothic Neo',sans-serif;--ink:#3e3c35;--ink-soft:#777064;--wood:#4d483b;--jeok:#9b5547;--cheong:#4b6965;--nok:#49675a;--hwang:#bda071;--rule:#d5c5a8}
