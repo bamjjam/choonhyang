@@ -71,6 +71,7 @@ dolsoe: {
   // solve: {pair: [1, 3]}                     // 두 증언 맞대기가 정답일 때
   // solve: {evidence, statements, point: {…}} // 증거를 낸 뒤 그림에서 한 곳을 짚게 할 때
   // pair 와 evidence 를 함께 쓰면 어느 쪽으로 풀어도 정답입니다.
+  // evidence 는 ['map', 'shadow'] 처럼 여러 개를 적을 수 있고, alt: [{evidence, statements}] 로 다른 정답 조합을 더할 수 있습니다.
   // near: [{evidence: 'river', statements: [1], text: '…'}, {pair: [1, 3], text: '…'}]
   //   그럴듯하지만 정답은 아닌 시도. 엽전을 깎지 않고 text 만 보여 줍니다. (statements 는 생략 가능)
   hints: ['방향', '범위', '거의 정답'],

@@ -248,7 +248,9 @@
           case 'submit-evidence': {
             if (!S.ev.includes(v)) return;
             // solve 에 pair 와 evidence 가 함께 있으면 어느 쪽으로 풀어도 정답입니다.
-            if (!sol.evidence || sol.evidence !== v || !sol.statements.includes(c.si)) {
+            // evidence 는 여러 개일 수 있고, alt 에 다른 정답 조합을 더 적을 수 있습니다.
+            const fits = (ev, sts) => [].concat(ev || []).includes(v) && (sts || []).includes(c.si);
+            if (!fits(sol.evidence, sol.statements) && !(sol.alt || []).some(x => fits(x.evidence, x.statements))) {
               // 그럴듯하지만 정답은 아닌 시도(solve.near)는 엽전을 깎지 않고 방향만 알려 줍니다.
               const n = (sol.near || []).find(n => n.evidence === v && (!n.statements || n.statements.includes(c.si)));
               return n ? notice(T.nearTitle, esc(n.text)) : wrong(w.wrong || T.wrongEvidence);
