@@ -86,3 +86,13 @@ table.seat tr.soil-target th,table.seat tr.soil-target td{background:#f3e7c6;fon
 .tl-cell.bad{border-color:#b8372c;background:#f8e6e2}
 .tl-opts{display:flex;gap:6px;flex-wrap:wrap}
 @media (max-width:560px){.tl-row{grid-template-columns:1fr}.tl-who{margin-top:6px}}
+
+/* 6화: 초상화 견주기와 두 사람의 답 */
+.busts{display:flex;gap:14px;justify-content:center;flex-wrap:wrap;margin:18px 0}
+.bust-card{margin:0;width:168px;max-width:30%;min-width:96px;text-align:center}
+.bust-card svg{width:100%;height:auto;display:block;border-radius:10px}
+.bust-card figcaption{margin-top:6px;font-weight:700;font-size:14px;color:#3c3a33;word-break:keep-all}
+.bust-card.target svg{outline:3px solid #cfae6a;outline-offset:2px}
+.feature-list{margin:6px 0 14px}
+.qa-table th[scope=row]{text-align:left;font-weight:400}
+.qa-table .seal{white-space:nowrap}

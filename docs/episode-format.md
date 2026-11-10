@@ -31,6 +31,7 @@ window.CASE = {
   rules: {pair: true},         // (선택) "두 증언 맞대기" 버튼 사용
   portraits: ['baleum', ...],  // 표정 시트가 있는 인물
   art: {nolbu: 'nolbu-v3'},    // (선택) 인물 이름과 그림 파일 이름이 다를 때
+  flip: ['ong2'],              // (선택) 그림을 좌우로 뒤집어 보여 줄 인물
   text: {...},                 // (선택) 엔진 기본 문구 바꾸기 (wrongEvidence, wrongPair 등)
   chars: {baleum: '나바름', narr: '', ...},
   glossary: {'증거': '뜻풀이', ...},
