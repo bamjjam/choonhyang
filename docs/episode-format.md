@@ -70,6 +70,8 @@ dolsoe: {
   solve: {evidence: 'jar', statements: [1]},   // 2번 증언(0부터 셈)에 jar 를 내밀면 정답
   // solve: {pair: [1, 3]}                     // 두 증언 맞대기가 정답일 때
   // solve: {evidence, statements, point: {…}} // 증거를 낸 뒤 그림에서 한 곳을 짚게 할 때
+  // near: [{evidence: 'river', statements: [1], text: '…'}, {pair: [1, 3], text: '…'}]
+  //   그럴듯하지만 정답은 아닌 시도. 엽전을 깎지 않고 text 만 보여 줍니다. (statements 는 생략 가능)
   hints: ['방향', '범위', '거의 정답'],
   wrong: '틀렸을 때 도와주는 말',              // (선택)
   success: [L(...), ...]                       // (선택) 맞힌 직후 이어지는 대사

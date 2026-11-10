@@ -32,3 +32,29 @@ button{font-family:inherit}.scene,.dlg,.stmt,.board,.landing,.ending{flex-shrink
 .pick-help,.scale-help{margin-top:16px}
 .scale-prompt{font-weight:700;font-size:17px;margin:18px 0 10px}
 .verdict-lean{text-align:center;margin:0 0 16px}
+
+/* 3화: 분리 실험과 무게 견주기 */
+.sep-piles{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:13px;margin:22px 0}
+.sep-pile{border:1px solid #d4c3a2;border-radius:13px;background:#f6eedc;padding:15px;display:flex;flex-direction:column;gap:11px;min-width:0}
+.sep-pile.pure{background:#edf0de;border-color:#c4c5a6}
+.sep-pile header{display:flex;justify-content:space-between;align-items:baseline;gap:8px;flex-wrap:wrap}
+.sep-pile header b{font-size:19px;color:#3c3a33}
+.sep-pile header span,.sep-pile header i{font-size:12px;color:#6c765c;font-style:normal}
+.sep-pile.pure header i{font-weight:700;color:#376f5e}
+.sep-parts{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+.sep-parts-wide{justify-content:center;margin:14px 0}
+.sep-part{display:flex;flex-direction:column;align-items:center;gap:3px;font-size:12px;color:#5d4d38;text-align:center}
+.sep-part svg{width:60px;height:60px}
+.sep-parts-wide .sep-part svg{width:84px;height:84px}
+.sep-parts-wide .sep-part{font-size:13px}
+.sep-why{flex:1;min-width:120px;margin:0;font-size:13px;line-height:1.6;color:#5f6a50;word-break:keep-all}
+.sep-tools{display:flex;gap:7px;flex-wrap:wrap}
+.sep-tools .seal{flex:1 1 auto}
+.sack-art{width:100%;height:auto;display:block;border-radius:12px;margin:10px 0}
+table.seat tr.soil-target th,table.seat tr.soil-target td{background:#f3e7c6;font-weight:700}
+.weigh{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:13px;margin:24px 0}
+.weigh-card{border:1px solid #d4c3a2;border-radius:13px;background:#f6eedc;padding:18px 14px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:7px;text-align:center}
+.weigh-card>span{font-size:13px;color:#7a6a4f}
+.weigh-card>b{font-size:36px;color:#3c3a33;line-height:1.1}
+.weigh-card>small{font-size:13px;color:#7a6a4f}
+.weigh-card.ask{background:#edf0de;border-color:#c4c5a6}
