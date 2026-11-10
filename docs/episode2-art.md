@@ -41,3 +41,8 @@ Use case: illustration-story. Asset: Korean children's courtroom visual-novel ch
 관복 참고: https://www.kculture.or.kr/clothes/code/944/menu/1078/idx/90/currentPage/1
 사모 참고: https://www.gugak.go.kr/ency/topic/view/533
 내장 이미지 생성 도구로 제작, 1536×1024 투명 3×2 표정 시트, WebP quality 88 변환.
+
+## 원님 사용자 레퍼런스 반영
+
+현재 원님: wonnim-v3.webp. 사용자가 제시한 사진의 넓은 챙 전립, 붉은 술, 구슬 끈, 붉은 동다리 소매와 검은 전복을 기준으로 복식 교체. 꽃중년 얼굴과 수채화 그림체 유지.
+참고: 국립민속박물관 사또 복식 설명 https://folkency.nfm.go.kr/api/file/download/dictionary/422

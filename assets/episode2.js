@@ -36,7 +36,7 @@
   function face(id, mood='normal') {
     if (!portraits.includes(id)) return '';
     const n=moods[mood] ?? 0;
-    return `<svg class="character painted-character" viewBox="0 0 512 512" role="img" aria-label="${C.chars[id]}" data-character="${id}"><image href="assets/art/${({nolbu:'nolbu-v3',wonnim:'wonnim-v2'})[id]||id}.webp" x="${-(n%3)*512}" y="${-Math.floor(n/3)*512}" width="1536" height="1024" preserveAspectRatio="none"/></svg>`;
+    return `<svg class="character painted-character" viewBox="0 0 512 512" role="img" aria-label="${C.chars[id]}" data-character="${id}"><image href="assets/art/${({nolbu:'nolbu-v3',wonnim:'wonnim-v3'})[id]||id}.webp" x="${-(n%3)*512}" y="${-Math.floor(n/3)*512}" width="1536" height="1024" preserveAspectRatio="none"/></svg>`;
   }
   const backdrop = (id='court') => `<img class="painted-backdrop" src="assets/art/${id}.webp" alt="" draggable="false">`;
   const who = (id,text,mood='normal') => `<div class="who"><div class="mini">${face(id,mood)}</div><div><span class="wn">${C.chars[id]}</span><p>${text}</p></div></div>`;
