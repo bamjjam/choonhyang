@@ -18,6 +18,7 @@
     wrongTitle: '한 번 더 살펴볼까요?',
     wrongEvidence: '이 증언의 어떤 부분을 확인할 수 있는 증거일까요? 다른 증언에 내밀어야 할 수도 있어요.',
     wrongPair: '두 증언이 서로 어긋나지 않아요. 같은 것을 다르게 말한 두 증언을 찾아보세요.',
+    nearTitle: '좋은 눈이에요. 하지만…',
     crossHelp: '이상한 말이 있는 번호를 고르고, 그 말을 확인할 증거를 내미세요.',
     crossHelpPair: '증언 번호를 눌러 넘겨 보세요. 이상한 말을 찾으면 증거를 내밀거나 두 증언을 맞대 보세요.'
   }, C.text);
@@ -244,7 +245,11 @@
           case 'present': X = {}; this.draw(s); return evidenceBox(true);
           case 'submit-evidence': {
             if (!S.ev.includes(v)) return;
-            if (sol.pair || sol.evidence !== v || !sol.statements.includes(c.si)) return wrong(w.wrong || T.wrongEvidence);
+            if (sol.pair || sol.evidence !== v || !sol.statements.includes(c.si)) {
+              // 그럴듯하지만 정답은 아닌 시도(solve.near)는 엽전을 깎지 않고 방향만 알려 줍니다.
+              const n = (sol.near || []).find(n => n.evidence === v && (!n.statements || n.statements.includes(c.si)));
+              return n ? notice(T.nearTitle, esc(n.text)) : wrong(w.wrong || T.wrongEvidence);
+            }
             if (!sol.point) return solved();
             const p = sol.point;
             return openModal(`<h3>${esc(p.title)}</h3>${p.quote ? `<p class="gl">${esc(p.quote)}</p>` : ''}${p.diagram(true)}<p>${esc(p.prompt)}</p><div class="row">${p.spots.map(([id, label]) => action('spot', esc(label), id, 'seal blue')).join('')}</div><div class="row end">${action('close', '증언 다시 보기', '', 'seal')}</div>`, p.title);
@@ -258,7 +263,10 @@
           case 'pair-go': {
             const sel = [...(X.sel || [])].sort((a, b) => a - b);
             if (sel.length !== 2) return;
-            return sol.pair && sel[0] === sol.pair[0] && sel[1] === sol.pair[1] ? solved() : wrong(T.wrongPair);
+            if (sol.pair && sel[0] === sol.pair[0] && sel[1] === sol.pair[1]) return solved();
+            const n = (sol.near || []).find(n => n.pair && n.pair[0] === sel[0] && n.pair[1] === sel[1]);
+            if (n) { X = {}; this.draw(s); return notice(T.nearTitle, esc(n.text)); }
+            return wrong(T.wrongPair);
           }
           case 'hint': return showHint();
           case 'more-hint': if (c.hint < 3) { c.hint++; save(); } return showHint();
