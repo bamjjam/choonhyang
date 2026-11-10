@@ -32,3 +32,12 @@ Use case: illustration-story. Asset: Korean children's courtroom visual-novel ch
 Use case: illustration-story. Asset: Korean children's courtroom visual-novel character expression sprite atlas. Create a NEW original local village magistrate called THE VILLAGE WONNIM (고을 원님), age about 60, for an imagined Korean Joseon local court in Heungbujeon. He is neither Yi Mongryong nor Byeon Hakdo. Reference atlas specifies ONLY watercolor/pencil painting style and 3x2 layout, not identity. A restrained fair older Korean man: long calm face, gently weathered cheeks, narrow thoughtful eyes, gray eyebrows, neat short gray moustache and a small neat gray chin beard, no big warrior beard. Simple traditional black round jeollip-style magistrate hat with modest brim and a small red side tassel; no pearls, bead strings or straps crossing cheeks, no imperial crown or Chinese Three-Kingdoms hat. Plain deep indigo sleeveless Korean robe over muted pale-blue/ivory hanbok, a narrow restrained red trim and brown waist belt, no armor, dragon embroidery or imperial regalia. Dignified yet approachable posture, hands loosely together low down holding a small closed paper case book without writing. Produce ONE transparent 1536x1024 PNG atlas, exactly 3 equal columns and 2 equal rows of 512x512 cells. Each cell is a separate waist-up front/slight 3-quarter portrait of the same magistrate at identical scale, full hat visible with margin inside each cell; torso touches bottom cell edge, clear side gaps, no overlaps. Six expressions left-right row1 calm neutral listening, gently pleased, concerned/sad; row2 surprised, puzzled with one small sweat bead, firm serious judgment. Preserve identity and outfit throughout. Fine pencil outlines, realistic storybook facial anatomy, richly shaded but soft watercolor texture consistent with reference. Fully transparent background with no scenery, text, labels, borders, grid, modern objects or watermark.
 ```
 
+
+## 2026-11-10 추가 수정
+
+현재 사용: nolbu-v3.webp, wonnim-v2.webp. 기존 버전은 기록으로 보존.
+놀부: 흥부의 수채화·연필화 질감에 맞춰 자연스러운 성인 비율, 절제한 눈썹과 콧수염으로 재생성.
+원님: 40대 중후반의 별도 인물, 검은 정돈된 수염, 사모·단령·단학 흉배·품대로 재생성.
+관복 참고: https://www.kculture.or.kr/clothes/code/944/menu/1078/idx/90/currentPage/1
+사모 참고: https://www.gugak.go.kr/ency/topic/view/533
+내장 이미지 생성 도구로 제작, 1536×1024 투명 3×2 표정 시트, WebP quality 88 변환.
