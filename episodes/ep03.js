@@ -43,8 +43,8 @@ window.CASE = (() => {
     bowl: () => `<div class="observation-heading"><span>잔칫날 낮 · 잔치 마당</span><b>원님 밥그릇에서 나온 것</b></div><div class="sep-parts sep-parts-wide"><span class="sep-part">${grain('sand')}<small>모래 알갱이</small></span><span class="sep-part">${grain('iron')}<small>검은 가루</small></span></div><p class="gl">밥에 무엇이 들어 있었는지는 알 수 있어요. 하지만 언제, 어디에서 들어갔는지는 이것만으로 알 수 없어요.</p>`,
     sack: () => `<div class="observation-heading"><span>잔칫날 낮 · 잔치 부엌</span><b>콩쥐네 자루 속을 살핀 그림</b></div>${sackArt()}<p class="gl"><b>쌀알</b><br>단단하고 보송보송해요. 물에 불은 쌀알이 없고, 자루 천에도 물 얼룩이 없어요.</p><p class="gl"><b>섞인 것</b><br>모가 난 모래 알갱이, 검고 반짝이는 가루, 까만 부스러기가 보여요.</p>`,
     ledger: () => `<article class="evidence-document ledger-doc"><span class="doc-overline">방앗간 장부 · 잔치 전날 낮</span><h3>방아 찧은 기록</h3><div class="ledger-grid"><span>맡긴 이</span><strong>콩쥐</strong><span>찧은 쌀 무게</span><strong>20근</strong><span>단 저울</span><strong>방앗간 저울</strong></div><p class="doc-copy">“키질을 마친 쌀을 달아 보니<br>꼭 스무 근.”</p><p class="doc-signer">적은 이 · 방앗간지기</p></article>`,
-    receipt: () => `<article class="evidence-document ledger-doc"><span class="doc-overline">관아 곳간 · 잔칫날 아침</span><h3>잔치 쌀 받은 기록</h3><div class="ledger-grid"><span>가져온 이</span><strong>배씨 부인</strong><span>자루 무게</span><strong>23근</strong><span>쌀값</span><strong>한 근에 엽전 2닢</strong><span>내준 돈</span><strong>46닢</strong></div><p class="doc-copy">“쌀값은 단 무게대로 치른다.”</p><p class="doc-signer">관아 저울과 방앗간 저울은 같은 추로 맞추어 씀</p></article>`,
-    key: () => `<article class="evidence-document note-doc"><span class="doc-overline">콩쥐네 광 · 문을 살핀 기록</span><h3>광 자물쇠와 열쇠</h3><p class="doc-copy">자물쇠는 <b>하나</b>, 열쇠도 <b>하나</b>.<br>열쇠는 배씨 부인이 허리춤에 차고 다님.<br>자물쇠와 문에 <b>억지로 연 흔적이 없음.</b><br>광에는 창이 없음.</p><p class="doc-signer">살핀 이 · 나바름</p></article>`,
+    receipt: () => `<article class="evidence-document ledger-doc"><span class="doc-overline">관아 곳간 · 잔칫날 아침</span><h3>잔치 쌀 받은 기록</h3><div class="ledger-grid"><span>가져온 이</span><strong>오씨 부인</strong><span>자루 무게</span><strong>23근</strong><span>쌀값</span><strong>한 근에 엽전 2닢</strong><span>내준 돈</span><strong>46닢</strong></div><p class="doc-copy">“쌀값은 단 무게대로 치른다.”</p><p class="doc-signer">관아 저울과 방앗간 저울은 같은 추로 맞추어 씀</p></article>`,
+    key: () => `<article class="evidence-document note-doc"><span class="doc-overline">콩쥐네 광 · 문을 살핀 기록</span><h3>광 자물쇠와 열쇠</h3><p class="doc-copy">자물쇠는 <b>하나</b>, 열쇠도 <b>하나</b>.<br>열쇠는 오씨 부인이 허리춤에 차고 다님.<br>자물쇠와 문에 <b>억지로 연 흔적이 없음.</b><br>광에는 창이 없음.</p><p class="doc-signer">살핀 이 · 나바름</p></article>`,
     river: () => `<div class="observation-heading"><span>냇가 · 두꺼비가 떠 온 견본</span><b>냇가 모래</b></div><div class="sep-parts sep-parts-wide"><span class="sep-part">${grain('sand')}<small>둥글둥글한 모래</small></span></div><p class="gl">밝은 빛깔이고 물에 젖어 있어요. 알갱이가 물살에 닳아 둥글둥글해요.<br>지남철을 대어도 붙는 것이 없고, 까만 부스러기도 없어요.</p>`,
     forge: () => `<div class="observation-heading"><span>대장간 마당 · 두꺼비가 떠 온 견본</span><b>대장간 마당 흙</b></div><div class="sep-parts sep-parts-wide"><span class="sep-part">${grain('sand')}<small>모가 난 모래</small></span><span class="sep-part">${grain('iron')}<small>검은 가루</small></span><span class="sep-part">${grain('char')}<small>까만 부스러기</small></span></div><p class="gl">모가 난 모래에 검은 가루와 까만 부스러기가 섞여 있어요.<br>지남철을 대면 검은 가루가 붙어요.</p>`
   };
@@ -118,7 +118,7 @@ window.CASE = (() => {
     title: '밤사이 늘어난 무게는?',
     intro: '같은 자루를 두 번 달았어요. 두 저울은 같은 추로 맞춘 저울이에요.',
     label: '늘어난 무게', unit: '근', max: 10, answer: 3,
-    visual: control => `<div class="weigh"><div class="weigh-card"><span>방앗간 저울 · 잔치 전날 낮</span><b>20근</b><small>콩쥐가 찧은 쌀</small></div><div class="weigh-card"><span>관아 저울 · 잔칫날 아침</span><b>23근</b><small>배씨 부인이 가져온 자루</small></div><div class="weigh-card ask"><span>밤사이 늘어난 무게</span>${control}<small>23 − 20 = ?</small></div></div>`,
+    visual: control => `<div class="weigh"><div class="weigh-card"><span>방앗간 저울 · 잔치 전날 낮</span><b>20근</b><small>콩쥐가 찧은 쌀</small></div><div class="weigh-card"><span>관아 저울 · 잔칫날 아침</span><b>23근</b><small>오씨 부인이 가져온 자루</small></div><div class="weigh-card ask"><span>밤사이 늘어난 무게</span>${control}<small>23 − 20 = ?</small></div></div>`,
     wrong: '관아에서 단 무게에서 방앗간에서 단 무게를 빼 보세요. 23 − 20 은 얼마일까요?',
     hint: ['두 무게의 차이', '스물셋에서 스물을 빼면 얼마가 남을까요? 그만큼이 밤사이 자루에 더해진 무게예요.']
   };
@@ -128,7 +128,7 @@ window.CASE = (() => {
     kicker: '최종 추리',
     title: '쌀에 흙이 섞인 진짜 까닭은?',
     intro: '지금까지 확인한 증거와 <b>모두 맞는</b> 설명을 하나 골라 주세요.',
-    body: () => `<div class="lab-common"><span>쌀알은 보송보송했다</span><span>방앗간 20근 → 관아 23근</span><span>섞인 것은 대장간 마당 흙</span><span>배씨 부인이 마당 흙을 담아 갔다</span><span>광 열쇠는 하나뿐</span></div>`,
+    body: () => `<div class="lab-common"><span>쌀알은 보송보송했다</span><span>방앗간 20근 → 관아 23근</span><span>섞인 것은 대장간 마당 흙</span><span>오씨 부인이 마당 흙을 담아 갔다</span><span>광 열쇠는 하나뿐</span></div>`,
     question: '원님께 어떻게 말씀드릴까요?',
     options: [
       '콩쥐가 냇가에서 쌀을 씻다가 모래가 들어갔다.',
@@ -149,7 +149,7 @@ window.CASE = (() => {
     title: '콩쥐의 누명을 벗겼어요.',
     sub: '섞인 것을 나누어 보니, 흙이 온 곳과 섞은 사람이 보였어요.',
     cards: [
-      {title: '관아의 판결 · 원님', who: 'wonnim', text: '콩쥐에게는 잘못이 없소. 배씨 부인은 더 받은 여섯 닢을 돌려주고, 콩쥐와 잔치 손님들에게 사과하시오. 그리고 관아 곳간의 쌀을 체로 쳐서 다시 고르는 일을 도우시오. 팥쥐와 무쇠 아재는 사실을 바로 말했으니, 이제라도 바로잡은 것을 참작하겠소.'},
+      {title: '관아의 판결 · 원님', who: 'wonnim', text: '콩쥐에게는 잘못이 없소. 오씨 부인은 더 받은 여섯 닢을 돌려주고, 콩쥐와 잔치 손님들에게 사과하시오. 그리고 관아 곳간의 쌀을 체로 쳐서 다시 고르는 일을 도우시오. 팥쥐와 무쇠 아재는 사실을 바로 말했으니, 이제라도 바로잡은 것을 참작하겠소.'},
       {modern: true, title: '오늘의 시선 · 한저울 판사', who: 'judge', text: '무게나 양을 속여 파는 일은 오늘날에도 잘못이에요. 그리고 “누가 그랬다더라”는 말만으로 사람을 벌해서는 안 돼요. 섞인 것을 나누고, 무게를 달고, 견본과 견주어 확인한 것이 콩쥐를 지켰습니다.'}
     ],
     strip: [['수학', '23 − 20 = 3근'], ['과학', '크기 · 지남철 · 물에 뜨기'], ['추리', '말과 말 맞대기']],
@@ -162,14 +162,14 @@ window.CASE = (() => {
     helper: 'dukkeobi',
     court: 'court',
     rules: {pair: true},
-    portraits: ['baleum', 'wonnim', 'kongjwi', 'patjwi', 'baessi', 'musoe', 'dukkeobi', 'judge'],
+    portraits: ['baleum', 'wonnim', 'kongjwi', 'patjwi', 'ossi', 'musoe', 'dukkeobi', 'judge'],
     art: {wonnim: 'wonnim-v3'},
     chars: {
       baleum: '나바름',
       wonnim: '고을 원님',
       kongjwi: '콩쥐',
       patjwi: '팥쥐',
-      baessi: '배씨 부인',
+      ossi: '오씨 부인',
       musoe: '무쇠 아재',
       dukkeobi: '두꺼비',
       judge: '한저울 판사',
@@ -229,8 +229,8 @@ window.CASE = (() => {
           L('wonnim', '허락하오. 체와 지남철, 물그릇을 가져오너라.', 'normal', {words: ['지남철']})
         ]
       },
-      baessi1: {
-        who: 'baessi', title: '두 번째 심문 · 자루를 맡은 배씨 부인',
+      ossi1: {
+        who: 'ossi', title: '두 번째 심문 · 자루를 맡은 오씨 부인',
         statements: [
           {text: '콩쥐가 찧어 온 쌀자루를 저녁에 광에 넣고, 내가 자물쇠를 채웠소.', cards: [{q: '자루를 열어 보셨나요?', a: '열어 보긴! 묶인 그대로 넣었소.'}]},
           {text: '광 열쇠는 나만 가지고 있소. 밤사이 아무도 광에 못 들어가오.', cards: [{q: '열쇠를 빌려준 적은 없나요?', a: '없소. 늘 내 허리춤에 차고 다니오.'}]},
@@ -244,7 +244,7 @@ window.CASE = (() => {
         wrong: '확인할 수 있는 것은 숫자예요. 언제, 어디에서 단 무게인지 잘 살펴보세요.',
         success: [
           L('baleum', '관아 기록에는 스물세 근이라고 적혀 있습니다. 스무 근 그대로가 아닙니다!', 'stern', {shout: true}),
-          L('baessi', '그, 그럴 리가… 관아 저울이 후한가 보오.', 'sweat'),
+          L('ossi', '그, 그럴 리가… 관아 저울이 후한가 보오.', 'sweat'),
           L('wonnim', '방앗간 저울과 관아 저울은 같은 추로 맞춘 것이오. 저울 탓은 할 수 없소.', 'stern'),
           L('dukkeobi', '밤사이 무게가 얼마나 늘었는지 셈해 봐요. 쌀 무게는 근으로 달아요.', 'normal', {words: ['근']})
         ]
@@ -266,15 +266,15 @@ window.CASE = (() => {
         wrong: '이 말을 깨뜨릴 물건 증거는 없어요. 아재의 말 가운데 서로 어긋나는 두 가지를 찾아 「두 증언 맞대기」를 눌러 보세요.',
         success: [
           L('baleum', '쓴 사람이 아무도 없는데 마당이 말끔해졌다니요. 누군가 쓸었다는 뜻입니다!', 'stern', {shout: true}),
-          L('musoe', '끄응… 사실은 전날 해 질 무렵에 배씨 부인이 찾아왔소.', 'sweat'),
+          L('musoe', '끄응… 사실은 전날 해 질 무렵에 오씨 부인이 찾아왔소.', 'sweat'),
           L('musoe', '마당을 거저 쓸어 주겠다기에 좋다고 했지. 쓸어 낸 흙은 자루에 담아 가더이다.', 'sad'),
           L('musoe', '그 흙이 쌀에 들어갔다는 말을 듣고, 내 탓이 될까 겁이 나서 숨겼소. 미안하오.', 'sad'),
           L('wonnim', '숨긴 것은 잘못이오. 그러나 이제라도 바로 말했으니 참작하겠소.'),
-          L('baessi', '마, 마당 좀 쓸어 준 게 무슨 죄란 말이오! 내 말도 끝까지 들어 보시오!', 'stern')
+          L('ossi', '마, 마당 좀 쓸어 준 게 무슨 죄란 말이오! 내 말도 끝까지 들어 보시오!', 'stern')
         ]
       },
-      baessi2: {
-        who: 'baessi', title: '마지막 심문 · 흙은 어디로 갔나',
+      ossi2: {
+        who: 'ossi', title: '마지막 심문 · 흙은 어디로 갔나',
         statements: [
           {text: '대장간 마당을 쓸어 준 건 맞소. 이웃끼리 돕는 게 죄요?', cards: [{q: '왜 하필 그날이었나요?', a: '그, 그냥 지나가다 보니 지저분하길래…', mood: 'sweat'}]},
           {text: '쓸어 낸 흙은 우리 텃밭에 거름 삼아 뿌렸소. 쌀과는 상관없소.', cards: [{q: '쇳가루 섞인 흙이 거름이 되나요?', a: '되, 될 수도 있지! 내 밭은 내가 아오.', mood: 'sweat'}]},
@@ -290,7 +290,7 @@ window.CASE = (() => {
         wrong: '부인의 말 가운데 확인할 수 있는 것을 찾아보세요. 누가 광에 들어갈 수 있었을까요?',
         success: [
           L('baleum', '광 열쇠는 하나뿐이고, 부인의 허리춤에 있었습니다. 자물쇠에는 억지로 연 흔적도 없습니다!', 'stern', {shout: true}),
-          L('baessi', '그, 그건…', 'shock'),
+          L('ossi', '그, 그건…', 'shock'),
           L('wonnim', '변호인. 그렇다면 쌀에 흙이 섞인 까닭을, 증거에 맞게 말해 보시오.', 'stern')
         ]
       }
@@ -300,7 +300,7 @@ window.CASE = (() => {
       {type: 'talk', chapter: '세 번째 의뢰', lines: [
         L('narr', '고을 잔칫날, 원님의 밥그릇에서 “으드득!” 소리가 났습니다. 밥에 모래가 섞여 있었습니다.', 'normal', {fx: 'drum'}),
         L('wonnim', '잔치 밥에 모래라니! 쌀자루를 살펴보니, 콩쥐네 자루에서 모래와 검은 가루가 나왔소.', 'stern'),
-        L('baessi', '아이고, 원님. 그 쌀은 콩쥐가 찧은 것이옵니다. 게으름을 피우다 일을 그르친 게지요.', 'stern'),
+        L('ossi', '아이고, 원님. 그 쌀은 콩쥐가 찧은 것이옵니다. 게으름을 피우다 일을 그르친 게지요.', 'stern'),
         L('kongjwi', '아니에요… 저는 키질까지 깨끗이 해서 자루에 담았어요.', 'sad', {words: ['키질']}),
         L('narr', '그때, 콩쥐의 치맛자락 뒤에서 두꺼비 한 마리가 폴짝 뛰어나왔습니다.'),
         L('dukkeobi', '꾸륵. 밑 빠진 독을 막아 준 그 두꺼비예요. 콩쥐는 일을 허투루 하는 아이가 아니에요.'),
@@ -327,26 +327,26 @@ window.CASE = (() => {
         L('baleum', '자루 속에 섞인 것은 냇가 모래가 아니라, 대장간 마당의 흙입니다!', 'stern', {shout: true}),
         L('wonnim', '콩쥐야, 대장간 마당에 간 일이 있느냐?'),
         L('kongjwi', '없어요. 방앗간에서 쌀을 받아 곧장 집으로 왔고, 자루는 어머니께 드렸어요.', 'sad'),
-        L('wonnim', '그렇다면 자루를 맡았던 배씨 부인의 말을 들어 보겠소.'),
-        L('baessi', '흥, 저야 숨길 것이 없지요.', 'stern')
+        L('wonnim', '그렇다면 자루를 맡았던 오씨 부인의 말을 들어 보겠소.'),
+        L('ossi', '흥, 저야 숨길 것이 없지요.', 'stern')
       ]},
-      {type: 'cross', id: 'baessi1', chapter: '스무 근의 자루'},
+      {type: 'cross', id: 'ossi1', chapter: '스무 근의 자루'},
       {type: 'count', chapter: '늘어난 무게', ...WEIGHT, after: [
         L('baleum', '방앗간에서 스무 근, 관아에서 스물세 근. 하룻밤 사이에 세 근이 늘었습니다.'),
         L('narr', '원님은 아까 걸러 낸 모래와 쇳가루, 숯 부스러기를 저울에 올리게 했습니다.'),
         L('wonnim', '꼭 세 근이오! 늘어난 무게는 쌀이 아니라 섞인 흙의 무게였구려.', 'shock'),
         L('dukkeobi', '쌀값은 한 근에 두 닢. 세 근이 늘었으니 여섯 닢을 더 받은 셈이에요.'),
-        L('baessi', '나, 나는 모르는 일이오! 대장간 흙이라면 대장장이에게 물어보시오!', 'sweat'),
+        L('ossi', '나, 나는 모르는 일이오! 대장간 흙이라면 대장장이에게 물어보시오!', 'sweat'),
         L('narr', '방앗간 옆 대장간의 무쇠 아재가 그을린 앞치마를 두른 채 들어왔습니다.'),
         L('musoe', '어험. 쇠 두드리는 것밖에 모르는 사람을 왜 부르셨소?')
       ]},
       {type: 'cross', id: 'musoe', chapter: '말끔해진 마당'},
-      {type: 'cross', id: 'baessi2', chapter: '하나뿐인 열쇠'},
+      {type: 'cross', id: 'ossi2', chapter: '하나뿐인 열쇠'},
       {type: 'pick', chapter: '진짜 까닭', ...CAUSE, after: [
         L('baleum', '열쇠를 가진 사람이 밤사이 대장간 마당 흙 세 근을 자루에 섞었습니다. 쌀값 여섯 닢을 더 받으려고요.', 'stern'),
         L('patjwi', '어머니, 이제 그만해요! 저… 언니가 쌀 씻는 걸 본 적 없어요. 어머니가 그렇게 말하라고 하셨잖아요.', 'sad'),
-        L('baessi', '…그래, 내가 그랬소. 무게만 늘리면 될 줄 알았지, 잔치 밥에서 모래가 씹힐 줄은 몰랐소.', 'sad'),
-        L('baessi', '들킬까 겁이 나서 콩쥐에게 떠넘겼소. 콩쥐야, 미안하다.', 'sad'),
+        L('ossi', '…그래, 내가 그랬소. 무게만 늘리면 될 줄 알았지, 잔치 밥에서 모래가 씹힐 줄은 몰랐소.', 'sad'),
+        L('ossi', '들킬까 겁이 나서 콩쥐에게 떠넘겼소. 콩쥐야, 미안하다.', 'sad'),
         L('kongjwi', '…사실대로 말씀해 주셔서 고맙습니다.'),
         L('dukkeobi', '꾸륵. 섞인 것도, 엉킨 말도 하나씩 나누어 보니 다 드러났네요.', 'happy'),
         L('wonnim', '이제 판결을 내리겠소.', 'stern')
@@ -359,7 +359,7 @@ window.CASE = (() => {
       intro: '깨끗이 고른 쌀에서 모래가 나왔다.<br>모두가 콩쥐 탓이라 말할 때,<br><strong>섞인 것을 나누어 진실을 밝혀 주세요.</strong>',
       start: '콩쥐의 사건 맡기',
       backdrop: 'mill',
-      people: [['kongjwi', 'sad'], ['baessi', 'stern'], ['baleum', 'normal']],
+      people: [['kongjwi', 'sad'], ['ossi', 'stern'], ['baleum', 'normal']],
       bubble: '섞인 것은 나누어 보면 알 수 있소!',
       label: ['콩쥐팥쥐전에서 시작된 새로운 사건', '모래 섞인 잔치 쌀의 진실'],
       steps: ['단서 수집', '나누고 견주기', '증거로 판결'],
@@ -369,7 +369,7 @@ window.CASE = (() => {
       title: '다시 이런 일이 생기지 않으려면?',
       intro: '가장 마음에 드는 생각을 골라 주세요. 여기에는 정답이 없어요.',
       choices: [
-        '배씨 부인은 더 받은 돈을 돌려주고, 콩쥐와 잔치 손님들에게 사과해야 해요.',
+        '오씨 부인은 더 받은 돈을 돌려주고, 콩쥐와 잔치 손님들에게 사과해야 해요.',
         '누가 시켜서 한 거짓말이라도, 바로잡는 용기가 필요해요.',
         '누가 그랬다는 말만 믿지 말고, 직접 나누고 견주어 본 뒤에 판단해야 해요.'
       ],
@@ -381,9 +381,9 @@ window.CASE = (() => {
       quote: '“섞인 것도, 엉킨 말도 하나씩 나누면 보여요.”',
       kicker: '세 번째 사건 해결',
       title: '섞인 것은<br><em>나누면 보여요.</em>',
-      text: '배씨 부인은 콩쥐에게 사과하고, 팥쥐와 함께 곳간의 쌀을 체로 쳤습니다.<br>다시 지은 잔치 밥에서는 고소한 냄새만 났습니다.',
+      text: '오씨 부인은 콩쥐에게 사과하고, 팥쥐와 함께 곳간의 쌀을 체로 쳤습니다.<br>다시 지은 잔치 밥에서는 고소한 냄새만 났습니다.',
       badges: ['분리 실험가', '무게 수사관', '모순 사냥꾼']
     },
-    guide: `<h3>제3화 · 교사·보호자 안내</h3><p><b>콩쥐팥쥐전 × 혼합물의 분리 × 말과 증거 견주기</b><br>초등 4학년부터, 약 30–40분을 예상한 이야기입니다. 콩쥐팥쥐전의 콩쥐, 팥쥐, 새어머니 배씨, 콩쥐를 돕는 두꺼비를 바탕으로 새로 꾸민 사건입니다. 무쇠 아재와 고을 원님은 이 게임을 위해 만든 인물입니다. 1·2화보다 한 단계 어렵습니다. 쓰이지 않는 증거가 섞여 있고, 증거 없이 두 증언을 맞대어야 풀리는 심문이 있습니다.</p><p><b>함께 생각할 질문</b></p><ol><li>쌀, 모래, 쇳가루, 숯을 나눌 때 어떤 성질을 이용했나요? 순서를 바꾸어도 될까요?</li><li>팥쥐는 시켜서 거짓말을 했습니다. 팥쥐에게도 책임이 있을까요?</li><li>무쇠 아재는 왜 사실을 숨겼을까요? 나라면 어떻게 했을까요?</li></ol><details class="teacher-spoilers"><summary>교사용 진행·정답 보기</summary><p>팥쥐: 증언 2 또는 3 + 자루 속 관찰 그림 (쌀알이 보송보송함).<br>분리 실험: 체(쌀) → 지남철(쇳가루) → 물(숯). 쌀을 먼저 고른 뒤라면 순서는 바꾸어도 됩니다.<br>흙의 고향: 대장간 마당.<br>배씨 부인 첫 심문: 증언 4 + 관아 접수 기록 (23근).<br>늘어난 무게: 23 − 20 = 3근.<br>무쇠 아재: 증언 3과 4를 맞대기.<br>배씨 부인 마지막 심문: 증언 3 + 광 자물쇠와 열쇠.<br>진짜 까닭: 네 번째 보기.<br>쓰이지 않는 증거: 밥그릇에서 나온 것.</p></details><p><b>과학 표현의 범위</b><br>알갱이의 크기(체), 자석에 붙는 성질(지남철), 물에 뜨고 가라앉는 성질을 이용한 혼합물의 분리를 다룹니다. 이야기 속 냇가 모래에는 자석에 붙는 것이 없다고 설정했지만, 실제 강모래에는 자석에 붙는 사철이 섞여 있기도 합니다. 숯도 물을 오래 머금으면 가라앉을 수 있습니다. 그래서 이야기에서는 한 가지 성질이 아니라 알갱이 모양, 쇳가루, 숯, 왕겨를 함께 견주어 판단합니다. 무게와 쌀값은 이야기 속 수치입니다.</p><p><b>인물을 다루는 방식</b><br>원작의 설정을 따라 새어머니가 잘못을 저지르지만, 이야기의 초점은 가족 관계가 아니라 “무게를 속이고 남에게 떠넘긴 행동”에 있습니다. 배씨 부인은 스스로 사실을 말하고 사과하며, 벌도 바로잡는 일로 한정했습니다.</p><p class="muted">로그인 없이 사용하며 진행과 일기는 브라우저 안에만 저장됩니다. 화마다 진행 기록은 별개입니다.</p>`
+    guide: `<h3>제3화 · 교사·보호자 안내</h3><p><b>콩쥐팥쥐전 × 혼합물의 분리 × 말과 증거 견주기</b><br>초등 4학년부터, 약 30–40분을 예상한 이야기입니다. 콩쥐팥쥐전의 콩쥐, 팥쥐, 새어머니, 콩쥐를 돕는 두꺼비를 바탕으로 새로 꾸민 사건입니다. 새어머니의 성은 이 게임에서 새로 붙였습니다. 무쇠 아재와 고을 원님은 이 게임을 위해 만든 인물입니다. 1·2화보다 한 단계 어렵습니다. 쓰이지 않는 증거가 섞여 있고, 증거 없이 두 증언을 맞대어야 풀리는 심문이 있습니다.</p><p><b>함께 생각할 질문</b></p><ol><li>쌀, 모래, 쇳가루, 숯을 나눌 때 어떤 성질을 이용했나요? 순서를 바꾸어도 될까요?</li><li>팥쥐는 시켜서 거짓말을 했습니다. 팥쥐에게도 책임이 있을까요?</li><li>무쇠 아재는 왜 사실을 숨겼을까요? 나라면 어떻게 했을까요?</li></ol><details class="teacher-spoilers"><summary>교사용 진행·정답 보기</summary><p>팥쥐: 증언 2 또는 3 + 자루 속 관찰 그림 (쌀알이 보송보송함).<br>분리 실험: 체(쌀) → 지남철(쇳가루) → 물(숯). 쌀을 먼저 고른 뒤라면 순서는 바꾸어도 됩니다.<br>흙의 고향: 대장간 마당.<br>오씨 부인 첫 심문: 증언 4 + 관아 접수 기록 (23근).<br>늘어난 무게: 23 − 20 = 3근.<br>무쇠 아재: 증언 3과 4를 맞대기.<br>오씨 부인 마지막 심문: 증언 3 + 광 자물쇠와 열쇠.<br>진짜 까닭: 네 번째 보기.<br>쓰이지 않는 증거: 밥그릇에서 나온 것.</p></details><p><b>과학 표현의 범위</b><br>알갱이의 크기(체), 자석에 붙는 성질(지남철), 물에 뜨고 가라앉는 성질을 이용한 혼합물의 분리를 다룹니다. 이야기 속 냇가 모래에는 자석에 붙는 것이 없다고 설정했지만, 실제 강모래에는 자석에 붙는 사철이 섞여 있기도 합니다. 숯도 물을 오래 머금으면 가라앉을 수 있습니다. 그래서 이야기에서는 한 가지 성질이 아니라 알갱이 모양, 쇳가루, 숯, 왕겨를 함께 견주어 판단합니다. 무게와 쌀값은 이야기 속 수치입니다.</p><p><b>인물을 다루는 방식</b><br>원작의 설정을 따라 새어머니가 잘못을 저지르지만, 이야기의 초점은 가족 관계가 아니라 “무게를 속이고 남에게 떠넘긴 행동”에 있습니다. 오씨 부인은 스스로 사실을 말하고 사과하며, 벌도 바로잡는 일로 한정했습니다.</p><p class="muted">로그인 없이 사용하며 진행과 일기는 브라우저 안에만 저장됩니다. 화마다 진행 기록은 별개입니다.</p>`
   };
 })();
