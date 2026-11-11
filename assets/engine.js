@@ -19,10 +19,13 @@
     wrongEvidence: '이 증언의 어떤 부분을 확인할 수 있는 증거일까요? 다른 증언에 내밀어야 할 수도 있어요.',
     wrongPair: '두 증언이 서로 어긋나지 않아요. 같은 것을 다르게 말한 두 증언을 찾아보세요.',
     nearTitle: '좋은 눈이에요. 하지만…',
+    wrongCombo: '두 증거를 함께 놓아도 이 증언과 어긋나지 않아요. 다른 증언이나 다른 짝을 찾아보세요.',
+    comboHalf: '좋은 증거예요. 하지만 이것 하나만으로는 부족해요. 함께 놓고 보아야 할 증거가 하나 더 있어요. 「증거 두 개 함께 내밀기」를 눌러 보세요.',
     crossHelp: '이상한 말이 있는 번호를 고르고, 그 말을 확인할 증거를 내미세요.',
     crossHelpPair: '증언 번호를 눌러 넘겨 보세요. 이상한 말을 찾으면 증거를 내밀거나 두 증언을 맞대 보세요.'
   }, C.text);
-  const fresh = () => ({version:2, screen:'title', stage:0, line:0, after:false, ev:[], coins:5, cross:{}, p:{}, scale:{}, vkey:null, seen:[], choice:null, diaryText:'', diarySaved:false, complete:false});
+  const COINS = C.rules?.coins || 5; // 기력 엽전의 수 (상 난이도는 3)
+  const fresh = () => ({version:2, screen:'title', stage:0, line:0, after:false, ev:[], coins:COINS, cross:{}, p:{}, scale:{}, vkey:null, seen:[], choice:null, diaryText:'', diarySaved:false, complete:false});
 
   let S = fresh(), hasSave = false, focusBeforeModal = null, afterClose = null, fxTimer;
   let X = {}; // 저장하지 않는 화면 상태 (질문 카드 펼침, 고른 증언 등)
@@ -48,7 +51,7 @@
     s.ev = Array.isArray(s.ev) ? s.ev.filter(k => C.evidence[k]) : [];
     s.seen = Array.isArray(s.seen) ? s.seen.filter(k => C.glossary[k]) : [];
     s.cross = obj(s.cross); s.p = obj(s.p); s.scale = obj(s.scale);
-    s.coins = Number.isFinite(s.coins) ? Math.max(1, Math.min(5, s.coins)) : 5;
+    s.coins = Number.isFinite(s.coins) ? Math.max(1, Math.min(COINS, s.coins)) : COINS;
     s.after = s.after === true && afterLines(C.stages[s.stage]).length > 0;
     const lines = s.after ? afterLines(C.stages[s.stage]) : C.stages[s.stage].lines;
     s.line = Number.isInteger(s.line) ? Math.max(0, Math.min(s.line, (lines?.length || 1) - 1)) : 0;
@@ -125,7 +128,7 @@
     if (S.screen === 'title') { $('#top').innerHTML = ''; return; }
     const cross = inStage('cross');
     $('#top').innerHTML = `<div class="case-progress"><span class="logo"><em>떡잎</em>부터 무죄 <small>제${C.n}화</small></span><span class="chapter">${esc(st().chapter || '')}</span><div class="progress-track"><i style="width:${Math.round(S.stage / (C.stages.length - 1) * 100)}%"></i></div></div>
-      ${cross ? `<span class="coins" aria-label="기력 엽전 ${S.coins}개">${Array.from({length: 5}, (_, i) => `<span class="coin ${i < S.coins ? '' : 'off'}"></span>`).join('')}</span>` : ''}
+      ${cross ? `<span class="coins" aria-label="기력 엽전 ${S.coins}개">${Array.from({length: COINS}, (_, i) => `<span class="coin ${i < S.coins ? '' : 'off'}"></span>`).join('')}</span>` : ''}
       ${action('evidence', '증거함 ' + S.ev.length, '', 'seal sm')}${action('words', '낱말 주머니', '', 'seal sm')}
       ${cross ? action('hint', '힌트', '', 'seal sm') : ''}${action('home', '처음 화면', '', 'seal sm')}`;
   }
@@ -168,7 +171,12 @@
 
   function evidenceBox(picking = false) {
     const c = picking ? curCross() : null;
-    openModal(`<h3>${picking ? `증언 ${c.si + 1}에 내밀 증거` : '사건 증거함'}</h3><div class="evlist">${S.ev.map(id => `<button class="ev" data-action="${picking ? 'submit-evidence' : 'show-evidence'}" data-value="${id}"><span class="ic">${icon(id)}</span><span class="ev-body"><b>${esc(C.evidence[id].name)}</b><span class="muted">${esc(C.evidence[id].short)}</span></span></button>`).join('') || '<p>현장을 조사하면 증거가 모여요.</p>'}</div><div class="row end">${action('close', '닫기', '', 'seal')}</div>`, picking ? '증거 내밀기' : '증거함');
+    // 상 난이도(rules.combo)에서는 증거 두 개를 함께 내밀 수 있습니다. 고르는 중인 증거는 X.combo 에 담습니다.
+    const combo = picking && Array.isArray(X.combo) ? X.combo : null;
+    const a = !picking ? 'show-evidence' : combo ? 'combo-pick' : 'submit-evidence';
+    const keep = $('#modal').hidden ? 0 : $('#sheet').scrollTop;
+    openModal(`<h3>${!picking ? '사건 증거함' : combo ? `증언 ${c.si + 1}에 함께 내밀 증거 두 개` : `증언 ${c.si + 1}에 내밀 증거`}</h3>${combo ? `<p class="muted">하나씩 보면 알 수 없지만, 함께 놓으면 드러나는 것이 있어요. 증거 두 개를 골라 주세요. <b>${combo.length} / 2</b></p>` : ''}<div class="evlist">${S.ev.map(id => `<button class="ev ${combo?.includes(id) ? 'picked' : ''}" data-action="${a}" data-value="${id}"${combo ? ` aria-pressed="${combo.includes(id)}"` : ''}><span class="ic">${icon(id)}</span><span class="ev-body"><b>${esc(C.evidence[id].name)}</b><span class="muted">${esc(C.evidence[id].short)}</span></span></button>`).join('') || '<p>현장을 조사하면 증거가 모여요.</p>'}</div><div class="row end">${picking && C.rules?.combo ? (combo ? action('combo-go', '이 두 증거 함께 내밀기', '', 'seal fill', combo.length !== 2) + action('combo-off', '하나만 내밀기', '', 'seal') : action('combo-on', '증거 두 개 함께 내밀기', '', 'seal blue')) : ''}${action('close', '닫기', '', 'seal')}</div>`, picking ? '증거 내밀기' : '증거함');
+    if (combo) $('#sheet').scrollTop = keep;
   }
 
   // ---------- 심문 ----------
@@ -176,21 +184,21 @@
     const id = st().id, n = C.witnesses[id].statements.length;
     const c = S.cross[id] && typeof S.cross[id] === 'object' ? S.cross[id] : (S.cross[id] = {});
     c.si = Number.isInteger(c.si) ? Math.max(0, Math.min(c.si, n - 1)) : 0;
-    c.wrong = c.wrong || 0; c.hint = Math.max(0, Math.min(3, c.hint || 0));
+    c.wrong = c.wrong || 0; c.hint = Math.max(0, Math.min(C.witnesses[id].hints.length, c.hint || 0));
     return c;
   }
   function showHint() {
     const w = C.witnesses[st().id], c = curCross();
     if (c.hint < 1) { c.hint = 1; save(); }
     const title = `${C.chars[C.helper]}의 힌트`;
-    openModal(`<h3>${title}</h3>${who(C.helper, w.hints.slice(0, c.hint).map(h => `<span class="hint-line">${esc(h)}</span>`).join(''), 'happy')}<div class="row end">${c.hint < 3 ? action('more-hint', '더 자세한 힌트', '', 'seal blue') : ''}${action('close', '생각해 볼게요')}</div>`, title);
+    openModal(`<h3>${title}</h3>${who(C.helper, w.hints.slice(0, c.hint).map(h => `<span class="hint-line">${esc(h)}</span>`).join(''), 'happy')}<div class="row end">${c.hint < w.hints.length ? action('more-hint', '더 자세한 힌트', '', 'seal blue') : ''}${action('close', '생각해 볼게요')}</div>`, title);
   }
   function wrong(message) {
     const c = curCross(); c.wrong++; S.coins--; X = {};
     let extra = '';
-    if (S.coins <= 0) { S.coins = 5; extra = '<br><br>기력 엽전을 다시 채웠어요. 모은 증거는 그대로예요. 천천히 다시 생각해 봐요.'; }
+    if (S.coins <= 0) { S.coins = COINS; extra = '<br><br>기력 엽전을 다시 채웠어요. 모은 증거는 그대로예요. 천천히 다시 생각해 봐요.'; }
     // 두 번 틀릴 때마다 다음 단계 힌트를 먼저 보여 줍니다.
-    const auto = c.wrong % 2 === 0 && c.hint < 3;
+    const auto = c.wrong % 2 === 0 && c.hint < C.witnesses[st().id].hints.length;
     if (auto) c.hint++;
     save(); topbar(); STAGES.cross.draw(st());
     notice(T.wrongTitle, esc(message) + extra, C.wrongSpeaker || C.helper, 'normal', auto ? showHint : null);
@@ -253,11 +261,28 @@
             if (!fits(sol.evidence, sol.statements) && !(sol.alt || []).some(x => fits(x.evidence, x.statements))) {
               // 그럴듯하지만 정답은 아닌 시도(solve.near)는 엽전을 깎지 않고 방향만 알려 줍니다.
               const n = (sol.near || []).find(n => n.evidence === v && (!n.statements || n.statements.includes(c.si)));
-              return n ? notice(T.nearTitle, esc(n.text)) : wrong(w.wrong || T.wrongEvidence);
+              if (n) return notice(T.nearTitle, esc(n.text));
+              // 두 증거를 함께 내밀어야 하는 증언에 그 가운데 하나만 냈을 때
+              if (sol.combo?.includes(v) && sol.statements.includes(c.si)) return notice(T.nearTitle, esc(T.comboHalf));
+              return wrong(w.wrong || T.wrongEvidence);
             }
             if (!sol.point) return solved();
             const p = sol.point;
             return openModal(`<h3>${esc(p.title)}</h3>${p.quote ? `<p class="gl">${esc(p.quote)}</p>` : ''}${p.diagram(true)}<p>${esc(p.prompt)}</p><div class="row">${p.spots.map(([id, label]) => action('spot', esc(label), id, 'seal blue')).join('')}</div><div class="row end">${action('close', '증언 다시 보기', '', 'seal')}</div>`, p.title);
+          }
+          case 'combo-on': X.combo = []; return evidenceBox(true);
+          case 'combo-off': delete X.combo; return evidenceBox(true);
+          case 'combo-pick': {
+            if (!Array.isArray(X.combo) || !S.ev.includes(v)) return;
+            if (X.combo.includes(v)) X.combo = X.combo.filter(x => x !== v); else if (X.combo.length < 2) X.combo.push(v);
+            return evidenceBox(true);
+          }
+          case 'combo-go': {
+            const sel = X.combo || []; if (sel.length !== 2) return;
+            const same = pair => pair && pair.length === 2 && pair.every(e => sel.includes(e));
+            if (same(sol.combo) && sol.statements.includes(c.si)) return solved();
+            const n = (sol.near || []).find(n => same(n.combo) && (!n.statements || n.statements.includes(c.si)));
+            return n ? notice(T.nearTitle, esc(n.text)) : wrong(w.wrong || T.wrongCombo);
           }
           case 'spot': {
             const p = sol.point; if (!p || $('#modal').hidden) return;
@@ -274,7 +299,7 @@
             return wrong(T.wrongPair);
           }
           case 'hint': return showHint();
-          case 'more-hint': if (c.hint < 3) { c.hint++; save(); } return showHint();
+          case 'more-hint': if (c.hint < w.hints.length) { c.hint++; save(); } return showHint();
         }
       }
     },
@@ -359,6 +384,37 @@
         if (a === 'pan' && X.tok && S.scale[v]) { S.scale[v].push(X.tok); X.tok = null; save(); this.draw(s); }
         if (a === 'unplace') { const [p, e] = v.split('|'); if (S.scale[p]) { S.scale[p] = S.scale[p].filter(x => x !== e); save(); this.draw(s); } }
         if (a === 'scale-done') { S.vkey = null; done(); }
+      }
+    },
+
+    /** 진범 지목. 먼저 한 사람을 짚고, 이어서 그 판단을 받쳐 주는 증거를 need 개 고릅니다. */
+    accuse: {
+      draw(s, message = '') {
+        const p = P(), sel = Array.isArray(p.sel) ? p.sel : (p.sel = []);
+        const help = message ? `<div class="pick-help">${who(C.helper, esc(message), 'sweat')}</div>` : '';
+        if (!p.named) {
+          $('#view').innerHTML = `<section class="board puzzle-board"><div class="section-kicker">${esc(s.kicker || '진범 지목')}</div><h2>${esc(s.title)}</h2><p class="muted">${s.intro}</p><div class="suspects">${s.suspects.map(id => `<button class="suspect" data-action="accuse" data-value="${id}">${face(id)}<b>${esc(C.chars[id])}</b></button>`).join('')}</div>${help}</section>`;
+          return;
+        }
+        $('#view').innerHTML = `<section class="board puzzle-board"><div class="section-kicker">근거 대기 · ${sel.length} / ${s.need}</div><h2>${esc(s.proofTitle)}</h2><p class="muted">${s.proofIntro}</p><div class="evlist">${S.ev.map(id => `<button class="ev ${sel.includes(id) ? 'picked' : ''}" data-action="proof" data-value="${id}" aria-pressed="${sel.includes(id)}"><span class="ic">${icon(id)}</span><span class="ev-body"><b>${esc(C.evidence[id].name)}</b><span class="muted">${esc(C.evidence[id].short)}</span></span></button>`).join('')}</div>${help}<div class="row end">${action('accuse-back', '다시 지목하기', '', 'seal')}${action('proof-go', '이 증거들이 근거예요 →', '', 'seal fill', sel.length !== s.need)}</div></section>`;
+      },
+      act(a, v, s) {
+        const p = P();
+        if (a === 'accuse' && !p.named && s.suspects.includes(v)) {
+          if (v === s.culprit) { p.named = true; p.sel = []; save(); render(true); }
+          else this.draw(s, s.wrong?.[v] || s.wrongDefault || '그 사람이 했다는 증거가 있나요? 증거가 가리키는 사람을 다시 생각해 보세요.');
+        }
+        if (a === 'accuse-back' && p.named) { p.named = false; p.sel = []; save(); render(true); }
+        if (a === 'proof' && p.named && S.ev.includes(v)) {
+          if (p.sel.includes(v)) p.sel = p.sel.filter(x => x !== v); else if (p.sel.length < s.need) p.sel.push(v);
+          save(); this.draw(s);
+        }
+        if (a === 'proof-go' && p.named && p.sel.length === s.need) {
+          const bad = p.sel.find(e => !s.proof.includes(e));
+          if (!bad) return done();
+          this.draw(s, s.why?.[bad] || `「${C.evidence[bad].name}」만으로는 ${C.chars[s.culprit]}의 짓이라고 말하기 어려워요. 그 사람과 사건을 이어 주는 증거를 골라 주세요.`);
+          $('.pick-help')?.scrollIntoView({block: 'nearest', behavior: 'smooth'});
+        }
       }
     },
 
