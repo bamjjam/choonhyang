@@ -31,6 +31,7 @@ window.CASE = {
   rules: {pair: true},         // (선택) "두 증언 맞대기" 버튼 사용
   portraits: ['baleum', ...],  // 표정 시트가 있는 인물
   art: {nolbu: 'nolbu-v3'},    // (선택) 인물 이름과 그림 파일 이름이 다를 때
+  flip: ['ong2'],              // (선택) 그림을 좌우로 뒤집어 보여 줄 인물
   text: {...},                 // (선택) 엔진 기본 문구 바꾸기 (wrongEvidence, wrongPair 등)
   chars: {baleum: '나바름', narr: '', ...},
   glossary: {'증거': '뜻풀이', ...},
@@ -70,6 +71,8 @@ dolsoe: {
   solve: {evidence: 'jar', statements: [1]},   // 2번 증언(0부터 셈)에 jar 를 내밀면 정답
   // solve: {pair: [1, 3]}                     // 두 증언 맞대기가 정답일 때
   // solve: {evidence, statements, point: {…}} // 증거를 낸 뒤 그림에서 한 곳을 짚게 할 때
+  // pair 와 evidence 를 함께 쓰면 어느 쪽으로 풀어도 정답입니다.
+  // evidence 는 ['map', 'shadow'] 처럼 여러 개를 적을 수 있고, alt: [{evidence, statements}] 로 다른 정답 조합을 더할 수 있습니다.
   // near: [{evidence: 'river', statements: [1], text: '…'}, {pair: [1, 3], text: '…'}]
   //   그럴듯하지만 정답은 아닌 시도. 엽전을 깎지 않고 text 만 보여 줍니다. (statements 는 생략 가능)
   hints: ['방향', '범위', '거의 정답'],
@@ -102,7 +105,9 @@ dolsoe: {
 
 ### 그 화만의 특별한 퍼즐
 
-표에 없는 퍼즐은 `CASE.custom` 에 넣습니다.
+어느 단계든 `gain: '증거 id'` 를 적으면, 그 단계를 마칠 때 새 증거가 증거함에 들어갑니다. 퍼즐에서 알아낸 것을 다음 심문에서 내밀 수 있습니다.
+
+표에 없는 퍼즐은 `CASE.custom` 에 넣습니다. 퍼즐 객체에 `auto()` (정답까지 누를 버튼 목록)를 함께 적어 두면 자동 플레이 검증에 쓰입니다.
 
 ```js
 custom: {

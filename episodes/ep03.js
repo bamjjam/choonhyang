@@ -66,6 +66,7 @@ window.CASE = (() => {
     return {out: [['char'], rest(pile, 'char')], msg: '까만 부스러기만 물에 둥둥 떴어요. 가벼운 숯 부스러기예요! 나머지는 가라앉았어요.'};
   }
   const SEPARATE = {
+    auto: () => [['sep-tool', '0|sieve'], ['sep-tool', '1|magnet'], ['sep-tool', '2|water'], ['sep-next', '']],
     draw(s, api) {
       const p = api.P();
       if (!Array.isArray(p.piles)) { p.piles = [['rice', 'sand', 'iron', 'char']]; p.used = 0; }

@@ -58,3 +58,52 @@ table.seat tr.soil-target th,table.seat tr.soil-target td{background:#f3e7c6;fon
 .weigh-card>b{font-size:36px;color:#3c3a33;line-height:1.1}
 .weigh-card>small{font-size:13px;color:#7a6a4f}
 .weigh-card.ask{background:#edf0de;border-color:#c4c5a6}
+
+/* 4화: 양팔저울과 진하기 */
+.scale-wrap{max-width:560px;margin:10px auto}
+.scale-art{width:100%;height:auto;display:block}
+.pick-row{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin:8px 0}
+.pick-row>span{min-width:92px;font-weight:700;color:#5d4d38}
+.cups{display:flex;gap:14px;flex-wrap:wrap;justify-content:center;margin:20px 0}
+.cup,.cup-button{display:flex;flex-direction:column;align-items:center;gap:4px;width:124px;padding:10px 6px;border:1px solid #d4c3a2;border-radius:13px;background:#f6eedc;font:inherit;color:#3c3a33}
+.cup svg,.cup-button svg{width:88px;height:auto}
+.cup b,.cup-button b{font-size:13px;text-align:center;word-break:keep-all}
+.cup-button{cursor:pointer}
+.cup-button.picked{background:#edf0de;border-color:#c4c5a6;opacity:.85;cursor:default}
+.cup-button i{font-style:normal;font-size:12px;color:#376f5e;font-weight:700}
+.cup.target{background:#f3e7c6;border-color:#cfae6a}
+
+/* 5화: 그림자 실험과 시간표 */
+.yard-wrap{max-width:520px;margin:10px auto}
+.yard-art{width:100%;height:auto;display:block;border-radius:12px}
+.time-row{justify-content:center;margin:12px 0 4px}
+.sun-status{text-align:center;color:#6c5d47;margin:6px 0 14px}
+.timeline{display:grid;gap:12px;margin:20px 0}
+.tl-row{display:grid;grid-template-columns:110px repeat(2,minmax(0,1fr));gap:10px;align-items:stretch}
+.tl-who{align-self:center;font-size:17px;color:#3c3a33}
+.tl-cell{border:1px solid #d4c3a2;border-radius:13px;background:#f6eedc;padding:12px;display:flex;flex-direction:column;gap:8px;min-width:0}
+.tl-cell>span{font-size:13px;font-weight:700;color:#7a6a4f}
+.tl-cell.bad{border-color:#b8372c;background:#f8e6e2}
+.tl-opts{display:flex;gap:6px;flex-wrap:wrap}
+@media (max-width:560px){.tl-row{grid-template-columns:1fr}.tl-who{margin-top:6px}}
+
+/* 6화: 초상화 견주기와 두 사람의 답 */
+.busts{display:flex;gap:14px;justify-content:center;flex-wrap:wrap;margin:18px 0}
+.bust-card{margin:0;width:168px;max-width:30%;min-width:96px;text-align:center}
+.bust-card svg{width:100%;height:auto;display:block;border-radius:10px}
+.bust-card figcaption{margin-top:6px;font-weight:700;font-size:14px;color:#3c3a33;word-break:keep-all}
+.bust-card.target svg{outline:3px solid #cfae6a;outline-offset:2px}
+.feature-list{margin:6px 0 14px}
+.qa-table th[scope=row]{text-align:left;font-weight:400}
+.qa-table .seal{white-space:nowrap}
+
+/* 7화: 속력 견주기 */
+.speed-bars{display:grid;gap:9px;margin:18px 0}
+.speed-bar{display:grid;grid-template-columns:minmax(120px,210px) 1fr auto;gap:10px;align-items:center;font-size:14px;color:#3c3a33}
+.speed-bar>span{word-break:keep-all}
+.speed-bar>i{display:block;height:16px;border-radius:8px;background:#7f9a86;min-width:6px}
+.speed-bar>b{white-space:nowrap;font-size:13px}
+.speed-bar.need>i{background:#b8372c}
+.speed-bar.need>b,.speed-bar.need>span{color:#9a2f25;font-weight:700}
+table.seat th.picked-col{background:#f3e7c6}
+@media (max-width:560px){.speed-bar{grid-template-columns:1fr auto}.speed-bar>span{grid-column:1/-1}}

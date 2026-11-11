@@ -66,7 +66,7 @@
   function face(id, mood = 'normal') {
     if (!C.portraits.includes(id)) return '';
     const n = MOODS[mood] ?? 0;
-    return `<svg class="character painted-character" viewBox="0 0 512 512" role="img" aria-label="${esc(C.chars[id])}" data-character="${id}" data-expression="${mood}"><image href="assets/art/${C.art?.[id] || id}.webp" x="${-(n % 3) * 512}" y="${-Math.floor(n / 3) * 512}" width="1536" height="1024" preserveAspectRatio="none"/></svg>`;
+    return `<svg class="character painted-character" viewBox="0 0 512 512" role="img" aria-label="${esc(C.chars[id])}" data-character="${id}" data-expression="${mood}"><g${C.flip?.includes(id) ? ' transform="translate(512 0) scale(-1 1)"' : ''}><image href="assets/art/${C.art?.[id] || id}.webp" x="${-(n % 3) * 512}" y="${-Math.floor(n / 3) * 512}" width="1536" height="1024" preserveAspectRatio="none"/></g></svg>`;
   }
   const backdrop = (id = C.court || 'court') => `<img class="bd painted-backdrop" src="assets/art/${id}.webp" alt="" draggable="false">`;
   const who = (id, html, mood = 'normal') => `<div class="who"><div class="mini">${face(id, mood)}</div><div><span class="wn">${esc(C.chars[id])}</span><p>${html}</p></div></div>`;
@@ -113,6 +113,8 @@
   /** 지금 단계를 마칩니다. 마무리 대사(after/success)가 있으면 먼저 보여 줍니다. */
   function done() {
     afterClose = null; closeModal();
+    // 단계에 gain 이 있으면, 그 단계를 마칠 때 새 증거가 증거함에 들어갑니다.
+    [].concat(st().gain || []).forEach(id => { if (C.evidence[id] && !S.ev.includes(id)) S.ev.push(id); });
     if (!S.after && afterLines().length) { S.after = true; S.line = 0; X = {}; save(); render(true); }
     else go(S.stage + 1);
   }
@@ -205,7 +207,7 @@
     investigate: {
       draw(s) {
         const n = C.places.length;
-        $('#view').innerHTML = `<section class="board"><div class="section-kicker">INVESTIGATION · 현장 조사</div><h2>${esc(s.title || '작은 단서부터 모아 볼까요?')}</h2><p class="muted">${n}곳을 둘러보고 증거를 살펴보세요. <b>${S.ev.length} / ${n}</b></p><div class="places">${C.places.map(p => `<button class="place ${S.ev.includes(p.ev) ? 'done' : ''}" data-action="place" data-value="${p.id}"><img class="location-art" src="assets/art/${p.art}.webp" alt=""><b>${esc(p.name)}</b><small>${S.ev.includes(p.ev) ? '수집 완료 · 다시 살펴보기' : esc(C.evidence[p.ev].name)}</small></button>`).join('')}</div><div class="row end investigation-bottom">${action('court', '증거를 들고 법정으로 →', '', 'seal fill', S.ev.length !== n)}</div></section>`;
+        $('#view').innerHTML = `<section class="board"><div class="section-kicker">INVESTIGATION · 현장 조사</div><h2>${esc(s.title || '작은 단서부터 모아 볼까요?')}</h2><p class="muted">${n}곳을 둘러보고 증거를 살펴보세요. <b>${C.places.filter(p => S.ev.includes(p.ev)).length} / ${n}</b></p><div class="places">${C.places.map(p => `<button class="place ${S.ev.includes(p.ev) ? 'done' : ''}" data-action="place" data-value="${p.id}"><img class="location-art" src="assets/art/${p.art}.webp" alt=""><b>${esc(p.name)}</b><small>${S.ev.includes(p.ev) ? '수집 완료 · 다시 살펴보기' : esc(C.evidence[p.ev].name)}</small></button>`).join('')}</div><div class="row end investigation-bottom">${action('court', '증거를 들고 법정으로 →', '', 'seal fill', !C.places.every(p => S.ev.includes(p.ev)))}</div></section>`;
       },
       act(a, v, s) {
         if (a === 'place') {
@@ -214,7 +216,7 @@
           topbar(); this.draw(s);
           openModal(`<div class="location-banner"><img src="assets/art/${p.art}.webp" alt=""></div><h3>${esc(C.evidence[p.ev].name)}</h3>${who(p.who, esc(p.line))}${evidenceView(p.ev)}<div class="row end">${action('close', '증거함에 넣기')}</div>`, C.evidence[p.ev].name);
         }
-        if (a === 'court' && S.ev.length === C.places.length) done();
+        if (a === 'court' && C.places.every(p => S.ev.includes(p.ev))) done();
       }
     },
 
@@ -245,7 +247,10 @@
           case 'present': X = {}; this.draw(s); return evidenceBox(true);
           case 'submit-evidence': {
             if (!S.ev.includes(v)) return;
-            if (sol.pair || sol.evidence !== v || !sol.statements.includes(c.si)) {
+            // solve 에 pair 와 evidence 가 함께 있으면 어느 쪽으로 풀어도 정답입니다.
+            // evidence 는 여러 개일 수 있고, alt 에 다른 정답 조합을 더 적을 수 있습니다.
+            const fits = (ev, sts) => [].concat(ev || []).includes(v) && (sts || []).includes(c.si);
+            if (!fits(sol.evidence, sol.statements) && !(sol.alt || []).some(x => fits(x.evidence, x.statements))) {
               // 그럴듯하지만 정답은 아닌 시도(solve.near)는 엽전을 깎지 않고 방향만 알려 줍니다.
               const n = (sol.near || []).find(n => n.evidence === v && (!n.statements || n.statements.includes(c.si)));
               return n ? notice(T.nearTitle, esc(n.text)) : wrong(w.wrong || T.wrongEvidence);
