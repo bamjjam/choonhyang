@@ -107,3 +107,11 @@ table.seat tr.soil-target th,table.seat tr.soil-target td{background:#f3e7c6;fon
 .speed-bar.need>b,.speed-bar.need>span{color:#9a2f25;font-weight:700}
 table.seat th.picked-col{background:#f3e7c6}
 @media (max-width:560px){.speed-bar{grid-template-columns:1fr auto}.speed-bar>span{grid-column:1/-1}}
+
+/* 상 난이도: 증거 두 개 함께 내밀기, 진범 지목 */
+.ev.picked{border-color:#376f5e;background:#e9f0e2;box-shadow:inset 0 0 0 2px #376f5e}
+.suspects{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:14px;margin:22px 0}
+.suspect{border:1px solid #d4c3a2;border-radius:14px;background:#f6eedc;padding:12px 10px 14px;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:8px;font-family:var(--f-body);color:#3c3a33;transition:transform .12s,box-shadow .12s}
+.suspect:hover{transform:translateY(-2px);box-shadow:0 6px 14px #5a4a3622;border-color:#b6a17b}
+.suspect svg{width:100%;max-width:150px;height:auto;display:block}
+.suspect b{font-family:var(--f-display);font-weight:400;font-size:18px}
