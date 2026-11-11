@@ -29,6 +29,7 @@ window.CASE = {
   wrongSpeaker: 'wonnim',      // (선택) 틀렸을 때 말하는 인물. 없으면 helper
   court: 'court',              // 법정 배경 그림 (assets/art/court.webp)
   rules: {pair: true},         // (선택) "두 증언 맞대기" 버튼 사용
+                               //   combo: true → 증거 두 개 함께 내밀기, coins: 3 → 기력 엽전 수 (기본 5)
   portraits: ['baleum', ...],  // 표정 시트가 있는 인물
   art: {nolbu: 'nolbu-v3'},    // (선택) 인물 이름과 그림 파일 이름이 다를 때
   flip: ['ong2'],              // (선택) 그림을 좌우로 뒤집어 보여 줄 인물
@@ -73,9 +74,12 @@ dolsoe: {
   // solve: {evidence, statements, point: {…}} // 증거를 낸 뒤 그림에서 한 곳을 짚게 할 때
   // pair 와 evidence 를 함께 쓰면 어느 쪽으로 풀어도 정답입니다.
   // evidence 는 ['map', 'shadow'] 처럼 여러 개를 적을 수 있고, alt: [{evidence, statements}] 로 다른 정답 조합을 더할 수 있습니다.
+  // solve: {combo: ['covers', 'lab1'], statements: [2, 3]}  증거 두 개를 함께 내밀어야 정답 (rules.combo 필요).
+  //   둘 가운데 하나만 내면 엽전을 깎지 않고 "하나가 더 필요하다"고 알려 줍니다.
   // near: [{evidence: 'river', statements: [1], text: '…'}, {pair: [1, 3], text: '…'}]
+  //   near 에도 {combo: ['a', 'b'], text: '…'} 를 쓸 수 있습니다.
   //   그럴듯하지만 정답은 아닌 시도. 엽전을 깎지 않고 text 만 보여 줍니다. (statements 는 생략 가능)
-  hints: ['방향', '범위', '거의 정답'],
+  hints: ['방향', '범위', '거의 정답'],   // 힌트는 몇 단계든 됩니다 (상 난이도는 두 단계)
   wrong: '틀렸을 때 도와주는 말',              // (선택)
   success: [L(...), ...]                       // (선택) 맞힌 직후 이어지는 대사
 }
@@ -97,6 +101,7 @@ dolsoe: {
 | `compare` | 공정한 비교 (조건 하나만 다른 둘 고르기) | `kicker, common, trials, dims, result, art(t), rounds, caption, note, hint` |
 | `facts` | 확인한 사실과 더 확인할 생각 나누기 | `kicker, title, intro, facts, hint` |
 | `scale` | 책임 저울 (정답 없음) | `title, intro, pans, help` |
+| `accuse` | 진범 지목. 한 사람을 짚고, 근거가 되는 증거를 `need` 개 고릅니다. | `title, intro, suspects, culprit, wrong{id: 말}, need, proofTitle, proofIntro, proof[], why{증거: 말}` |
 | `verdict` | 판결 | `kicker, stamp, title, sub, cards, foot` |
 | `diary` | 판관 일기 (`CASE.diary` 사용) | |
 | `end` | 결말 (`CASE.end` 사용) | |
