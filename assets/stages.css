@@ -144,3 +144,7 @@ table.seat th.picked-col{background:#f3e7c6}
 
 /* 10화: 번짐 실험 */
 .strip-art{width:62px;height:auto;display:block}
+
+
+/* Keep each atlas portrait inside its 512px cell, including wide ending slots. */
+.painted-character > g{clip-path:polygon(0% 0%,100% 0%,100% 100%,0% 100%) view-box}
