@@ -96,3 +96,14 @@ table.seat tr.soil-target th,table.seat tr.soil-target td{background:#f3e7c6;fon
 .feature-list{margin:6px 0 14px}
 .qa-table th[scope=row]{text-align:left;font-weight:400}
 .qa-table .seal{white-space:nowrap}
+
+/* 7화: 속력 견주기 */
+.speed-bars{display:grid;gap:9px;margin:18px 0}
+.speed-bar{display:grid;grid-template-columns:minmax(120px,210px) 1fr auto;gap:10px;align-items:center;font-size:14px;color:#3c3a33}
+.speed-bar>span{word-break:keep-all}
+.speed-bar>i{display:block;height:16px;border-radius:8px;background:#7f9a86;min-width:6px}
+.speed-bar>b{white-space:nowrap;font-size:13px}
+.speed-bar.need>i{background:#b8372c}
+.speed-bar.need>b,.speed-bar.need>span{color:#9a2f25;font-weight:700}
+table.seat th.picked-col{background:#f3e7c6}
+@media (max-width:560px){.speed-bar{grid-template-columns:1fr auto}.speed-bar>span{grid-column:1/-1}}
