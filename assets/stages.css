@@ -148,3 +148,7 @@ table.seat th.picked-col{background:#f3e7c6}
 
 /* Keep each atlas portrait inside its 512px cell, including wide ending slots. */
 .painted-character > g{clip-path:polygon(0% 0%,100% 0%,100% 100%,0% 100%) view-box}
+.ending-art:has(>.ending-portrait:nth-of-type(3))>.ending-portrait{width:33.333%;left:0;right:auto;height:95%;bottom:-25px}
+.ending-art:has(>.ending-portrait:nth-of-type(3))>.ending-portrait:nth-of-type(2){left:33.333%}
+.ending-art:has(>.ending-portrait:nth-of-type(3))>.ending-portrait:nth-of-type(3){left:66.666%}
+@media(max-width:520px){.ending-art:has(>.ending-portrait:nth-of-type(3)){height:220px}.ending-art:has(>.ending-portrait:nth-of-type(3))>.ending-portrait{bottom:18px;height:90%}}

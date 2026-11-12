@@ -9,6 +9,7 @@ window.SERIES = [
   {n: 6, classic: '옹고집전', title: '옹고집이 둘이오!', href: 'episode6.html'},
   {n: 7, classic: '홍길동전', title: '한날한시 여덟 길동', href: 'episode7.html'},
   {n: 8, classic: '전우치전', title: '도술인가, 과학인가', href: 'episode8.html'},
-  {n: 9, classic: '견우직녀', title: '오작교가 끊어진 밤', href: 'episode9.html'}
+  {n: 9, classic: '견우직녀', title: '오작교가 끊어진 밤', href: 'episode9.html'},
+  {n: 10, classic: '춘향전', title: '지워지지 않는 이름', href: 'episode10.html'}
 ];
 
