@@ -69,7 +69,7 @@
   function face(id, mood = 'normal') {
     if (!C.portraits.includes(id)) return '';
     const n = MOODS[mood] ?? 0;
-    return `<svg class="character painted-character" viewBox="0 0 512 512" role="img" aria-label="${esc(C.chars[id])}" data-character="${id}" data-expression="${mood}"><g${C.flip?.includes(id) ? ' transform="translate(512 0) scale(-1 1)"' : ''}><image href="assets/art/${C.art?.[id] || id}.webp" x="${-(n % 3) * 512}" y="${-Math.floor(n / 3) * 512}" width="1536" height="1024" preserveAspectRatio="none"/></g></svg>`;
+    return `<svg class="character painted-character" viewBox="0 0 512 512" role="img" aria-label="${esc(C.chars[id])}" data-character="${id}" data-expression="${mood}"><g${C.flip?.includes(id) ? ' transform="translate(512 0) scale(-1 1)"' : ''}><image href="assets/art/${C.art?.[id] || id}.webp${(C.art?.[id] || id) === 'gawi' ? '?v=20261112-arms' : ''}" x="${-(n % 3) * 512}" y="${-Math.floor(n / 3) * 512}" width="1536" height="1024" preserveAspectRatio="none"/></g></svg>`;
   }
   const backdrop = (id = C.court || 'court') => `<img class="bd painted-backdrop" src="assets/art/${id}.webp" alt="" draggable="false">`;
   const who = (id, html, mood = 'normal') => `<div class="who"><div class="mini">${face(id, mood)}</div><div><span class="wn">${esc(C.chars[id])}</span><p>${html}</p></div></div>`;
@@ -524,3 +524,4 @@
   if (loaded) { S = loaded; hasSave = true; }
   render();
 })();
+
